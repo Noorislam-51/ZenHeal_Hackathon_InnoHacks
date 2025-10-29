@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Patient Portal - Login & Registration</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #20c997, #0dcaf0);
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      padding-top: 60px;   
+      justify-content: center;
+      font-family: "Poppins", sans-serif;
+    }
+    .flip-container { perspective: 1000px; width: 420px; max-width: 95%; }
+    .flip-card { position: relative; width: 100%; transform-style: preserve-3d; transition: transform 0.8s ease-in-out; }
+    .flip-card.flipped { transform: rotateY(180deg); }
+    .flip-card-front, .flip-card-back {
+      background: #fff; border-radius: 16px; padding: 2rem; 
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2); 
+      position: absolute; width: 100%; backface-visibility: hidden;
+    }
+    .flip-card-back { transform: rotateY(180deg); }
+    .card-icon { font-size: 2.5rem; color: #198754; text-align: center; margin-bottom: 0.5rem; }
+    .card-title { text-align: center; font-weight: 600; color: #212529; margin-bottom: 0.3rem; }
+    .card-subtitle { text-align: center; font-size: 0.95rem; color: #6c757d; margin-bottom: 1.5rem; }
+    .password-input { position: relative; }
+    .password-toggle { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); border: none; background: transparent; cursor: pointer; }
+    .action-btn { background-color: #198754; color: white; border: none; width: 100%; padding: 0.75rem; border-radius: 6px; font-weight: 600; transition: background 0.3s; }
+    .action-btn:hover { background-color: #157347; }
+    .switch-link { text-align: center; margin-top: 1rem; }
+    .switch-link button { border: none; background: none; color: #198754; text-decoration: underline; cursor: pointer; padding: 0; }
+    .back-btn { color: #fff; text-decoration: none; font-weight: 500; font-size: 1rem; }
+    .forgot-password { text-align: right; margin-bottom: 1rem; }
+    .forgot-password a { color: #198754; text-decoration: none; }
+    .forgot-password a:hover { text-decoration: underline; }
+  </style>
+</head>
+
+<body>
+  <div class="text-center position-absolute top-0 start-0 end-0 mt-3">
+    <a href="/" class="back-btn"><i class="bi bi-house"></i> Back to Home</a>
+  </div>
+
+  <div class="flip-container">
+    <div class="flip-card" id="flipCard">
+
+      <!-- ✅ PATIENT LOGIN -->
+      <div class="flip-card-front">
+        <div class="card-icon"><i class="bi bi-person"></i></div>
+        <h2 class="card-title">Patient Login</h2>
+        <p class="card-subtitle">Access your patient dashboard</p>
+
+        <form action="/login/patient" method="POST">
+          <div class="mb-3">
+            <label for="patientId" class="form-label">Patient ID</label>
+            <input type="text" class="form-control" id="patientId" name="patientId" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="loginPassword" class="form-label">Password</label>
+            <div class="password-input">
+              <input type="password" class="form-control" id="loginPassword" name="password" required>
+              <button type="button" class="password-toggle" onclick="togglePassword('loginPassword')">
+                <i class="bi bi-eye" id="loginPasswordIcon"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="forgot-password">
+            <a href="/forgot-password/patient">Forgot Password?</a>
+          </div>
+
+          <button type="submit" class="action-btn">Login</button>
+
+          <div class="switch-link">
+            New Patient? <button type="button" onclick="flipCard()">Register here</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- ✅ PATIENT REGISTER -->
+      <div class="flip-card-back">
+        <div class="card-icon"><i class="bi bi-person-plus-fill"></i></div>
+        <h2 class="card-title">Patient Registration</h2>
+        <p class="card-subtitle">Create your patient account</p>
+
+        <form action="/register/patient" method="POST">
+          <div class="mb-3">
+            <label for="fullName" class="form-label">Full Name</label>
+            <input type="text" class="form-control" id="fullName" name="fullName" required>
+          </div>
+
+          <!-- ✅ CHANGED from userId → patientId -->
+          <div class="mb-3">
+            <label for="patientIdReg" class="form-label">Patient ID</label>
+            <input type="text" class="form-control" id="patientIdReg" name="patientId" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="email" class="form-label">Email Address</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="phone" class="form-label">Phone Number</label>
+            <input type="text" class="form-control" id="phone" name="phone" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <div class="password-input">
+              <input type="password" class="form-control" id="password" name="password" required>
+              <button type="button" class="password-toggle" onclick="togglePassword('password')">
+                <i class="bi bi-eye" id="passwordIcon"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="confirmPassword" class="form-label">Confirm Password</label>
+            <div class="password-input">
+              <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+              <button type="button" class="password-toggle" onclick="togglePassword('confirmPassword')">
+                <i class="bi bi-eye" id="confirmPasswordIcon"></i>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" class="action-btn">Register</button>
+
+          <div class="switch-link">
+            Already have an account? <button type="button" onclick="flipCard()">Login here</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function flipCard() {
+      document.getElementById('flipCard').classList.toggle('flipped');
+    }
+
+    function togglePassword(inputId) {
+      const input = document.getElementById(inputId);
+      const icon = document.getElementById(inputId + 'Icon');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'bi bi-eye-slash';
+      } else {
+        input.type = 'password';
+        icon.className = 'bi bi-eye';
+      }
+    }
+
+    document.getElementById('confirmPassword').addEventListener('input', function () {
+      if (this.value !== document.getElementById('password').value) {
+        this.setCustomValidity('Passwords do not match');
+      } else {
+        this.setCustomValidity('');
+      }
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
