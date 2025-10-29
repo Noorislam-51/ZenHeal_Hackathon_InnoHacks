@@ -19,8 +19,17 @@ router.get('/login/doctor', function(req, res, next) {
 router.get('/login/pharmacy', function(req, res, next) {
   res.render('./auth/pharmacy_auth.ejs');
 });
-router.get('/next', function(req, res, next) {
-  res.render('next');
+// router.get('/next', function(req, res, next) {
+//   res.render('next');
+// });
+
+router.get('/patient/dashboard', function(req, res, next) {
+  res.render('./patient/dashboard');
 });
+router.get('/patient/consultation', function(req, res, next) {
+  res.render('./patient/consultation');
+});
+
+
 
 module.exports = router;

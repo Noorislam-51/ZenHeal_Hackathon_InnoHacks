@@ -33,7 +33,7 @@ router.post('/register/patient', async (req, res) => {
     await Patient.register(newPatient, password);
 
     req.flash('success', 'Patient account created successfully. Please log in.');
-    res.redirect('/next'); // ✅ redirect to correct page
+    res.redirect('/patient/dashboard'); // ✅ redirect to correct page
   } catch (err) {
     console.error('❌ Patient Registration Error:', err);
     req.flash('error', 'Error creating patient account. Try again.');
@@ -50,7 +50,7 @@ router.post(
   }),
   (req, res) => {
     req.flash('success', 'Patient login successful!');
-    res.redirect('/next');
+    res.redirect('/patient/dashboard');
   }
 );
 
@@ -81,7 +81,7 @@ router.post('/register/doctor', async (req, res) => {
     await Doctor.register(newDoctor, password);
 
     req.flash('success', 'Doctor account created successfully. Please log in.');
-    res.redirect('/next'); // ✅ redirect to correct page
+    res.redirect('/patient/dashboard'); // ✅ redirect to correct page
   } catch (err) {
     console.error('❌ Doctor Registration Error:', err);
     req.flash('error', 'Error creating doctor account. Try again.');
@@ -98,7 +98,7 @@ router.post(
   }),
   (req, res) => {
     req.flash('success', 'Doctor login successful!');
-    res.redirect('/next');
+    res.redirect('/patient/dashboard');
   }
 );
 
@@ -132,7 +132,7 @@ router.post('/register/pharmacy', async (req, res) => {
     await Pharmacy.register(newStore, password);
 
     req.flash('success', 'Pharmacy account created successfully. Please log in.');
-    res.redirect('/next');
+    res.redirect('/patient/dashboard');
   } catch (err) {
     console.error('❌ Pharmacy Registration Error:', err);
     req.flash('error', 'Error creating pharmacy account. Try again.');
@@ -149,7 +149,7 @@ router.post(
   }),
   (req, res) => {
     req.flash('success', 'Pharmacy login successful!');
-    res.redirect('/next'); // redirect to pharmacy dashboard or landing page
+    res.redirect('/patient/dashboard'); // redirect to pharmacy dashboard or landing page
   }
 );
 // -------------------- LOGOUT --------------------
