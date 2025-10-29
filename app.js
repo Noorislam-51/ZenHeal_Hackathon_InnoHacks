@@ -57,8 +57,8 @@ passport.use('Pharmacy-local', Pharmacy.createStrategy());
 // ✅ Serialize user type + id
 passport.serializeUser((user, done) => {
   let type = 'Patient';
-  if (user.doctorId) type = 'Doctor';
-  else if (user.pharmacyId) type = 'Pharmacy';
+  if (user instanceof Doctor) type = 'Doctor';
+  else if (user instanceof Pharmacy) type = 'Pharmacy';
   done(null, { id: user._id, type });
 });
 

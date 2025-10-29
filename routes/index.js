@@ -29,6 +29,9 @@ router.get('/patient/dashboard', function(req, res, next) {
 router.get('/patient/consultation', function(req, res, next) {
   res.render('./patient/consultation');
 });
+router.get('/patient/add_patient', function(req, res, next) {
+  res.render('./patient/add_patient');
+});
 
 
 

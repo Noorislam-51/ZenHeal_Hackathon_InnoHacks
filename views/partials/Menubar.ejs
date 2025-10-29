@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background-color: #f8f9fa;
+    }
+
+    .sidebar {
+      min-height: 100vh;
+      background-color: #ffffff;
+      padding: 1.5rem 0;
+      border-right: 1px solid #dee2e6;
+    }
+
+    .sidebar .nav-link {
+      color: #495057;
+      padding: 0.75rem 1.5rem;
+      margin: 0.25rem 0;
+    }
+
+    .sidebar .nav-link:hover,
+    .sidebar .nav-link.active {
+      background-color: #f8f9fa;
+    }
+
+    .logo {
+      padding: 0 1.5rem 1.5rem;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background-color: #17a2b8;
+      border-radius: 8px;
+    }
+
+    .main-content {
+      background-color: #f8f9fa;
+      min-height: 100vh;
+    }
+
+    .form-card {
+      background-color: white;
+      border-radius: 8px;
+      padding: 2rem;
+      max-width: 800px;
+      margin: 2rem auto;
+    }
+
+    .upload-btn,
+    .record-btn {
+      border: 2px dashed #dee2e6;
+      background-color: #f8f9fa;
+      padding: 2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .upload-btn:hover,
+    .record-btn:hover {
+      background-color: #e9ecef;
+    }
+
+    .btn-save {
+      background-color: #17a2b8;
+      color: white;
+      padding: 0.75rem 2rem;
+    }
+
+    .btn-save:hover {
+      background-color: #138496;
+    }
+
+    .btn-offline {
+      background-color: #e9ecef;
+      color: #495057;
+      padding: 0.75rem 2rem;
+    }
+
+    .form-label {
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    .required {
+      color: #dc3545;
+    }
+  </style>
+</head>
+<body>
+<!-- Sidebar -->
+      <div class="col-md-2 sidebar">
+        <div class="logo d-flex align-items-center mb-4">
+          <div class="logo-icon d-flex align-items-center justify-content-center text-white me-2">
+            <i class="bi bi-heart-pulse-fill"></i>
+          </div>
+          <div>
+            <strong>Village Health</strong><br>
+            <small class="text-muted">Portal</small>
+          </div>
+        </div>
+        <nav class="nav flex-column">
+          <a class="nav-link" href="/dashboard"><i class="bi bi-speedometer2 me-2"></i> Dashboard</a>
+          <a class="nav-link active" href="/add-patient"><i class="bi bi-person-plus me-2"></i> Add Patient</a>
+          <a class="nav-link" href="/consultation"><i class="bi bi-chat-dots me-2"></i> Consultation</a>
+          <a class="nav-link" href="/prescriptions"><i class="bi bi-file-text me-2"></i> Prescriptions</a>
+          <a class="nav-link" href="/appointments"><i class="bi bi-calendar-check me-2"></i> Appointments</a>
+          <a class="nav-link" href="/messages"><i class="bi bi-envelope me-2"></i> Messages</a>
+          <a class="nav-link" href="/settings"><i class="bi bi-gear me-2"></i> Settings</a>
+        </nav>
+      </div>
+</body>
+</html>
