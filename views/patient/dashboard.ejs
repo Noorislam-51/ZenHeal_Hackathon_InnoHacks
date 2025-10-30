@@ -86,158 +86,128 @@
   <div class="container-fluid">
     <div class="row">
       <%- include('../partials/Menubar') %>
-       <%- include('../partials/TopmenuBar', { translateSnippet: translateSnippet }) %>
 
-          <!-- Main Content -->
-          <div class="col-md-10 p-4">
+        <!-- Main Content -->
+        <div class="col-md-10 p-4">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="mb-0">Village Health Portal</h4>
+            <div>
+              <button class="btn btn-link"><i class="bi bi-globe"></i></button>
+              <button class="btn btn-link position-relative">
+                <i class="bi bi-bell"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">1</span>
+              </button>
+                <button class="btn btn-link text-dark"> <%- translateSnippet %></button>
+            </div>
+          </div>
 
-            
 
 
-            <!-- Welcome Card -->
-            <div class="card welcome-card mb-4">
-              <div class="card-body">
-                <h5>Welcome, Noor! 👋</h5>
-                <p class="mb-0 text-muted">Here's what's happening with your patients today.</p>
-              </div>
+          <!-- Welcome Card -->
+          <div class="card welcome-card mb-4">
+            <div class="card-body">
+              <h5>Welcome, Noor! 👋</h5>
+              <p class="mb-0 text-muted">Here's what's happening with your patients today.</p>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="row mb-4">
+            <div class="col-md-4">
+              <a href="/patient/consultation" class="btn action-btn btn-primary-custom w-100">
+                <i class="bi bi-chat-dots d-block fs-3 mb-2"></i>
+                Start Consultation
+              </a>
             </div>
 
-            <!-- Action Buttons -->
-            <div class="row mb-4">
-              <div class="col-md-4">
-                <a href="/patient/consultation" class="btn action-btn btn-primary-custom w-100">
-                  <i class="bi bi-chat-dots d-block fs-3 mb-2"></i>
-                  Start Consultation
-                </a>
-              </div>
-
-              <div class="col-md-4">
-                <a href="/patient/add_patient" class="btn action-btn bg-light w-100">
-                  <i class="bi bi-person-plus d-block fs-3 mb-2"></i>
-                  Add Patient
-                </a>
-              </div>
-
-              <div class="col-md-4">
-                <a href="/patient/prescriptions" class="btn action-btn bg-light w-100">
-                  <i class="bi bi-file-text d-block fs-3 mb-2"></i>
-                  My Prescriptions
-                </a>
-              </div>
+            <div class="col-md-4">
+              <a href="/patient/add_patient" class="btn action-btn bg-light w-100">
+                <i class="bi bi-person-plus d-block fs-3 mb-2"></i>
+                Add Patient
+              </a>
             </div>
 
+            <div class="col-md-4">
+              <a href="/patient/prescriptions" class="btn action-btn bg-light w-100">
+                <i class="bi bi-file-text d-block fs-3 mb-2"></i>
+                My Prescriptions
+              </a>
+            </div>
+          </div>
 
-            <!-- Appointments and Prescriptions -->
-            <div class="row">
-              <!-- Upcoming Appointments -->
-              <div class="col-md-6">
-                <div class="card">
-                  <div class="card-body">
-                    <h5 class="card-title"><i class="bi bi-calendar-check text-info me-2"></i> Upcoming Appointments
-                    </h5>
-                    <p class="text-muted small">You have 3 appointments today</p>
 
-                    <div class="appointment-card">
-                      <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                          <strong>Ramesh Kumar</strong>
-                          <div class="text-muted small"><i class="bi bi-clock me-1"></i> 10:00 AM</div>
-                        </div>
-                        <span class="badge badge-video">Video Call</span>
+          <!-- Appointments and Prescriptions -->
+          <div class="row">
+            <!-- Upcoming Appointments -->
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title"><i class="bi bi-calendar-check text-info me-2"></i> Upcoming Appointments
+                  </h5>
+                  <p class="text-muted small">You have 3 appointments today</p>
+
+                  <div class="appointment-card">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div>
+                        <strong>Ramesh Kumar</strong>
+                        <div class="text-muted small"><i class="bi bi-clock me-1"></i> 10:00 AM</div>
                       </div>
-                    </div>
-
-                    <div class="appointment-card">
-                      <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                          <strong>Priya Sharma</strong>
-                          <div class="text-muted small"><i class="bi bi-clock me-1"></i> 2:30 PM</div>
-                        </div>
-                        <span class="badge badge-followup">Follow-up</span>
-                      </div>
-                    </div>
-
-                    <div class="appointment-card">
-                      <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                          <strong>Anil Patel</strong>
-                          <div class="text-muted small"><i class="bi bi-clock me-1"></i> 4:00 PM</div>
-                        </div>
-                        <span class="badge badge-video">Video Call</span>
-                      </div>
+                      <span class="badge badge-video">Video Call</span>
                     </div>
                   </div>
-                </div>
-              </div>
 
-              <!-- Recent Prescriptions -->
-              <div class="col-md-6">
-                <div class="card">
-                  <div class="card-body">
-                    <h5 class="card-title"><i class="bi bi-prescription2 text-info me-2"></i> Recent Prescriptions</h5>
-                    <p class="text-muted small">Latest prescriptions issued</p>
-
-                    <div class="prescription-card">
-                      <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                          <strong>Meera Singh</strong>
-                          <div class="text-muted small">Today</div>
-                        </div>
-                        <div class="text-end">
-                          <div class="small">3 medicines</div>
-                          <a href="#" class="text-info small">View</a>
-                        </div>
+                  <div class="appointment-card">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div>
+                        <strong>Priya Sharma</strong>
+                        <div class="text-muted small"><i class="bi bi-clock me-1"></i> 2:30 PM</div>
                       </div>
+                      <span class="badge badge-followup">Follow-up</span>
                     </div>
+                  </div>
 
-                    <div class="prescription-card">
-                      <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                          <strong>Suresh Reddy</strong>
-                          <div class="text-muted small">Yesterday</div>
-                        </div>
-                        <div class="text-end">
-                          <div class="small">2 medicines</div>
-                          <a href="#" class="text-info small">View</a>
-                        </div>
+                  <div class="appointment-card">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div>
+                        <strong>Anil Patel</strong>
+                        <div class="text-muted small"><i class="bi bi-clock me-1"></i> 4:00 PM</div>
                       </div>
+                      <span class="badge badge-video">Video Call</span>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- Recent Notifications -->
-            <div class="row mt-4">
-              <div class="col-12">
-                <div class="card">
-                  <div class="card-body">
-                    <h5 class="card-title mb-4">Recent Notifications</h5>
+            <!-- Recent Prescriptions -->
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title"><i class="bi bi-prescription2 text-info me-2"></i> Recent Prescriptions</h5>
+                  <p class="text-muted small">Latest prescriptions issued</p>
 
-                    <div class="notification-item mb-3">
-                      <div class="d-flex justify-content-between">
-                        <div>
-                          <strong>New appointment request from Lakshmi Devi</strong>
-                          <div class="text-muted small">5 mins ago</div>
-                        </div>
+                  <div class="prescription-card">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div>
+                        <strong>Meera Singh</strong>
+                        <div class="text-muted small">Today</div>
+                      </div>
+                      <div class="text-end">
+                        <div class="small">3 medicines</div>
+                        <a href="#" class="text-info small">View</a>
                       </div>
                     </div>
+                  </div>
 
-                    <div class="notification-item mb-3">
-                      <div class="d-flex justify-content-between">
-                        <div>
-                          <strong>Prescription ready for pickup - Rajesh Kumar</strong>
-                          <div class="text-muted small">1 hour ago</div>
-                        </div>
+                  <div class="prescription-card">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div>
+                        <strong>Suresh Reddy</strong>
+                        <div class="text-muted small">Yesterday</div>
                       </div>
-                    </div>
-
-                    <div class="notification-item">
-                      <div class="d-flex justify-content-between">
-                        <div>
-                          <strong>Video consultation starts in 30 minutes</strong>
-                          <div class="text-muted small">2 hours ago</div>
-                        </div>
+                      <div class="text-end">
+                        <div class="small">2 medicines</div>
+                        <a href="#" class="text-info small">View</a>
                       </div>
                     </div>
                   </div>
@@ -245,6 +215,45 @@
               </div>
             </div>
           </div>
+
+          <!-- Recent Notifications -->
+          <div class="row mt-4">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title mb-4">Recent Notifications</h5>
+
+                  <div class="notification-item mb-3">
+                    <div class="d-flex justify-content-between">
+                      <div>
+                        <strong>New appointment request from Lakshmi Devi</strong>
+                        <div class="text-muted small">5 mins ago</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="notification-item mb-3">
+                    <div class="d-flex justify-content-between">
+                      <div>
+                        <strong>Prescription ready for pickup - Rajesh Kumar</strong>
+                        <div class="text-muted small">1 hour ago</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="notification-item">
+                    <div class="d-flex justify-content-between">
+                      <div>
+                        <strong>Video consultation starts in 30 minutes</strong>
+                        <div class="text-muted small">2 hours ago</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
   </div>
   <script>

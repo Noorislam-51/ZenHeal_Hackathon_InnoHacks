@@ -101,7 +101,20 @@
   <div class="container-fluid">
     <div class="row">
       <%- include('../partials/Menubar') %>
-        <%- include('../partials/TopmenuBar', { translateSnippet: translateSnippet }) %>
+           <!-- Main Content -->
+        <div class="col-md-10 p-4">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="mb-0">Add Patient</h4>
+            <div>
+              <button class="btn btn-link"><i class="bi bi-globe"></i></button>
+              <button class="btn btn-link position-relative">
+                <i class="bi bi-bell"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">1</span>
+              </button>
+                <button class="btn btn-link text-dark"> <%- translateSnippet %></button>
+            </div>
+          </div>
+
 
 
 
