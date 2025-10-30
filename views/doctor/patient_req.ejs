@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Village Health Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        .sidebar {
+            min-height: 100vh;
+            background-color: #f8f9fa;
+            padding: 1.5rem 0;
+        }
+
+        .sidebar .nav-link {
+            color: #495057;
+            padding: 0.75rem 1.5rem;
+            margin: 0.25rem 0;
+        }
+
+        .sidebar .nav-link:hover {
+            background-color: #e9ecef;
+        }
+
+        .logo {
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #17a2b8;
+            border-radius: 8px;
+        }
+
+        .welcome-card {
+            background-color: #d1ecf1;
+            border: none;
+            border-radius: 8px;
+        }
+
+        .action-btn {
+            padding: 2.5rem 1rem;
+            border-radius: 8px;
+            border: none;
+            text-align: center;
+        }
+
+        .btn-primary-custom {
+            background-color: #17a2b8;
+            color: white;
+        }
+
+        .appointment-card,
+        .prescription-card {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .badge-video {
+            background-color: #cfe2ff;
+            color: #084298;
+        }
+
+        .badge-followup {
+            background-color: #cff4fc;
+            color: #055160;
+        }
+
+        .notification-item {
+            border-left: 3px solid #17a2b8;
+            padding-left: 1rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f5f5f5;
+            color: #1a1a1a;
+        }
+
+        .main-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .content-area {
+            flex: 1;
+            margin-left: 0;
+            /* Will be adjusted when sidebar is added */
+        }
+
+        .top-header {
+            background-color: #fff;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e0e0e0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .menu-icon {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+
+        .menu-icon span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: #333;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .notification-icon {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .notification-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: #333;
+            stroke-width: 2;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #dc2626;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .settings-icon {
+            cursor: pointer;
+        }
+
+        .settings-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: #333;
+            stroke-width: 2;
+        }
+
+        .doctor-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .doctor-info {
+            text-align: right;
+        }
+
+        .doctor-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #1a1a1a;
+        }
+
+        .doctor-role {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .logout-icon {
+            cursor: pointer;
+        }
+
+        .logout-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: #666;
+            stroke-width: 2;
+        }
+
+        .main-content {
+            padding: 2rem;
+            max-width: 1200px;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .pending-count {
+            color: #0891b2;
+            font-weight: 600;
+        }
+
+        .requests-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .request-card {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 1.75rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .request-card:hover {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .patient-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .patient-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        .patient-icon svg {
+            width: 100%;
+            height: 100%;
+            fill: none;
+            stroke: #666;
+            stroke-width: 2;
+        }
+
+        .patient-details h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 0.25rem;
+        }
+
+        .village-name {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .priority-badge {
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: lowercase;
+        }
+
+        .priority-high {
+            background-color: #dc2626;
+            color: white;
+        }
+
+        .priority-medium {
+            background-color: #f59e0b;
+            color: white;
+        }
+
+        .priority-low {
+            background-color: #10b981;
+            color: white;
+        }
+
+        .problem-section {
+            margin: 1.25rem 0;
+        }
+
+        .problem-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .problem-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .problem-icon svg {
+            width: 100%;
+            height: 100%;
+            fill: none;
+            stroke: #666;
+            stroke-width: 2;
+        }
+
+        .problem-title {
+            font-weight: 600;
+            color: #1a1a1a;
+            font-size: 0.95rem;
+        }
+
+        .problem-description {
+            color: #4b5563;
+            margin-left: 1.75rem;
+            line-height: 1.5;
+        }
+
+        .submission-time {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .time-icon {
+            width: 18px;
+            height: 18px;
+        }
+
+        .time-icon svg {
+            width: 100%;
+            height: 100%;
+            fill: none;
+            stroke: #666;
+            stroke-width: 2;
+        }
+
+        .action-button {
+            width: 100%;
+            padding: 1rem;
+            background-color: #0891b2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 1.25rem;
+        }
+
+        .action-button:hover {
+            background-color: #0e7490;
+        }
+
+        .action-button:active {
+            background-color: #155e75;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1rem;
+            }
+
+            .top-header {
+                padding: 1rem;
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+            }
+
+            .doctor-profile {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <%- include('./partials/Menubar') %>
+
+                <!-- Main Content -->
+                <div class="col-md-10 p-4">
+                    <!-- Header -->
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h4 class="mb-0">Village Health Portal</h4>
+                        <div>
+                            <button class="btn btn-link"><i class="bi bi-globe"></i></button>
+                            <button class="btn btn-link position-relative">
+                                <i class="bi bi-bell"></i>
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">1</span>
+                            </button>
+                            <button class="btn btn-link"><i class="bi bi-gear"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Welcome Card -->
+                    <div class="card welcome-card mb-4">
+                        <div class="card-body">
+                            <h5>Welcome, Ali! 👋</h5>
+                            <p class="mb-0 text-muted">Here's what's happening with your patients today.</p>
+                        </div>
+                    </div>
+
+                    <div class="main-content">
+                        <div class="page-header">
+                            <h2 class="page-title">Patient Requests</h2>
+                            <p class="page-subtitle">View and accept incoming patient consultation requests</p>
+                        </div>
+
+                        <div class="section-header">
+                            <h3 class="section-title">Pending Requests</h3>
+                            <span class="pending-count">4 Pending</span>
+                        </div>
+
+                        <div class="requests-container">
+                            <!-- Request Card 1 -->
+                            <div class="request-card">
+                                <div class="card-header">
+                                    <div class="patient-info">
+                                        <div class="patient-icon">
+                                            <svg viewBox="0 0 24 24">
+                                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                                <circle cx="12" cy="7" r="4" />
+                                            </svg>
+                                        </div>
+                                        <div class="patient-details">
+                                            <h3>Ramesh Kumar, 45</h3>
+                                            <p class="village-name">Village: Khandwa</p>
+                                        </div>
+                                    </div>
+                                    <span class="priority-badge priority-high">high priority</span>
+                                </div>
+
+                                <div class="problem-section">
+                                    <div class="problem-header">
+                                        <div class="problem-icon">
+                                            <svg viewBox="0 0 24 24">
+                                                <circle cx="12" cy="12" r="10" />
+                                                <line x1="12" y1="16" x2="12" y2="12" />
+                                                <line x1="12" y1="8" x2="12.01" y2="8" />
+                                            </svg>
+                                        </div>
+                                        <span class="problem-title">Problem Description</span>
+                                    </div>
+                                    <p class="problem-description">Persistent fever and body ache for 3 days</p>
+                                </div>
+
+                                <div class="submission-time">
+                                    <div class="time-icon">
+                                        <svg viewBox="0 0 24 24">
+                                            <circle cx="12" cy="12" r="10" />
+                                            <polyline points="12 6 12 12 16 14" />
+                                        </svg>
+                                    </div>
+                                    <span>Submitted: 2024-03-15 10:30 AM</span>
+                                </div>
+
+                                <button class="action-button">Accept & Schedule Appointment</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <script>
+        // highlight both sidebar and dashboard buttons
+        const currentPath = window.location.pathname;
+
+        // sidebar active
+        document.querySelectorAll('.sidebar .nav-link').forEach(link => {
+            if (link.getAttribute('href') === currentPath) {
+                link.classList.add('active');
+            }
+        });
+
+        // action buttons active
+        document.querySelectorAll('.action-btn').forEach(btn => {
+            if (btn.getAttribute('href') === currentPath) {
+                btn.classList.add('active');
+            }
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

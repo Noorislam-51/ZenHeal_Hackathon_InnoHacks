@@ -98,7 +98,7 @@ router.post(
   }),
   (req, res) => {
     req.flash('success', 'Doctor login successful!');
-    res.redirect('/patient/dashboard');
+    res.redirect('/doctor/dashboard');
   }
 );
 
@@ -132,7 +132,7 @@ router.post('/register/pharmacy', async (req, res) => {
     await Pharmacy.register(newStore, password);
 
     req.flash('success', 'Pharmacy account created successfully. Please log in.');
-    res.redirect('/patient/dashboard');
+    res.redirect('/doctor/dashboard');
   } catch (err) {
     console.error('❌ Pharmacy Registration Error:', err);
     req.flash('error', 'Error creating pharmacy account. Try again.');

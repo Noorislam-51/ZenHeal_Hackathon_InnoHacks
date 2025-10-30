@@ -100,7 +100,7 @@
 <body>
   <div class="container-fluid">
     <div class="row">
-      <%- include('../partials/Menubar') %>
+      <%- include('./partials/Menubar') %>
 
         <!-- Main Content -->
         <div class="col-md-10 main-content p-0">
@@ -277,74 +277,74 @@
       }
     });
     const openCameraBtn = document.getElementById('openCameraBtn');
-const takePhotoBtn = document.getElementById('takePhotoBtn');
-const removePhotoBtn = document.getElementById('removePhotoBtn');
-const uploadPhotoInput = document.getElementById('uploadPhotoInput');
-const video = document.getElementById('cameraStream');
-const canvas = document.getElementById('snapshotCanvas');
-const capturedImage = document.getElementById('capturedImage');
-const photoDataInput = document.getElementById('photoData');
-let stream = null;
+    const takePhotoBtn = document.getElementById('takePhotoBtn');
+    const removePhotoBtn = document.getElementById('removePhotoBtn');
+    const uploadPhotoInput = document.getElementById('uploadPhotoInput');
+    const video = document.getElementById('cameraStream');
+    const canvas = document.getElementById('snapshotCanvas');
+    const capturedImage = document.getElementById('capturedImage');
+    const photoDataInput = document.getElementById('photoData');
+    let stream = null;
 
-// 🎥 Open camera stream
-openCameraBtn.addEventListener('click', async () => {
-  try {
-    stream = await navigator.mediaDevices.getUserMedia({ video: true });
-    video.srcObject = stream;
-    video.style.display = 'block';
-    takePhotoBtn.style.display = 'inline-block';
-    openCameraBtn.style.display = 'none';
-  } catch (err) {
-    alert('❌ Unable to access camera. Please allow camera permission.');
-    console.error(err);
-  }
-});
+    // 🎥 Open camera stream
+    openCameraBtn.addEventListener('click', async () => {
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        video.srcObject = stream;
+        video.style.display = 'block';
+        takePhotoBtn.style.display = 'inline-block';
+        openCameraBtn.style.display = 'none';
+      } catch (err) {
+        alert('❌ Unable to access camera. Please allow camera permission.');
+        console.error(err);
+      }
+    });
 
-// 📸 Capture photo
-takePhotoBtn.addEventListener('click', () => {
-  canvas.width = video.videoWidth;
-  canvas.height = video.videoHeight;
-  canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+    // 📸 Capture photo
+    takePhotoBtn.addEventListener('click', () => {
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
 
-  const dataURL = canvas.toDataURL('image/png');
-  capturedImage.src = dataURL;
-  capturedImage.style.display = 'block';
-  photoDataInput.value = dataURL;
-
-  stream.getTracks().forEach(track => track.stop());
-  video.style.display = 'none';
-  takePhotoBtn.style.display = 'none';
-  removePhotoBtn.style.display = 'inline-block';
-});
-
-// 🗑️ Remove photo
-removePhotoBtn.addEventListener('click', () => {
-  capturedImage.src = '';
-  capturedImage.style.display = 'none';
-  photoDataInput.value = '';
-  removePhotoBtn.style.display = 'none';
-  openCameraBtn.style.display = 'inline-block';
-  uploadPhotoInput.value = ''; // reset file
-});
-
-// 🖼️ Upload from system
-uploadPhotoInput.addEventListener('change', (event) => {
-  const file = event.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = function (e) {
-      capturedImage.src = e.target.result;
+      const dataURL = canvas.toDataURL('image/png');
+      capturedImage.src = dataURL;
       capturedImage.style.display = 'block';
-      photoDataInput.value = e.target.result; // base64 encode
-      removePhotoBtn.style.display = 'inline-block';
-      openCameraBtn.style.display = 'inline-block';
-      takePhotoBtn.style.display = 'none';
-      if (stream) stream.getTracks().forEach(track => track.stop());
+      photoDataInput.value = dataURL;
+
+      stream.getTracks().forEach(track => track.stop());
       video.style.display = 'none';
-    };
-    reader.readAsDataURL(file);
-  }
-});
+      takePhotoBtn.style.display = 'none';
+      removePhotoBtn.style.display = 'inline-block';
+    });
+
+    // 🗑️ Remove photo
+    removePhotoBtn.addEventListener('click', () => {
+      capturedImage.src = '';
+      capturedImage.style.display = 'none';
+      photoDataInput.value = '';
+      removePhotoBtn.style.display = 'none';
+      openCameraBtn.style.display = 'inline-block';
+      uploadPhotoInput.value = ''; // reset file
+    });
+
+    // 🖼️ Upload from system
+    uploadPhotoInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          capturedImage.src = e.target.result;
+          capturedImage.style.display = 'block';
+          photoDataInput.value = e.target.result; // base64 encode
+          removePhotoBtn.style.display = 'inline-block';
+          openCameraBtn.style.display = 'inline-block';
+          takePhotoBtn.style.display = 'none';
+          if (stream) stream.getTracks().forEach(track => track.stop());
+          video.style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+      }
+    });
   </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

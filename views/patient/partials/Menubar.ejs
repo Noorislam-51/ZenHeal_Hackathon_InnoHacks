@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sidebar Active Link</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background-color: #f8f9fa;
+    }
+
+    .sidebar {
+      min-height: 100vh;
+      background-color: #ffffff;
+      padding: 1.5rem 0;
+      border-right: 1px solid #dee2e6;
+    }
+
+    .sidebar .nav-link {
+      color: #495057;
+      padding: 0.75rem 1.5rem;
+      margin: 0.25rem 0;
+      display: block;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .sidebar .nav-link:hover {
+      background-color: #f8f9fa;
+    }
+
+    .sidebar .nav-link.active {
+      background-color: #17a2b8;
+      color: white;
+      border-radius: 6px;
+    }
+
+    .logo {
+      padding: 0 1.5rem 1.5rem;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background-color: #17a2b8;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="col-md-2 sidebar">
+    <div class="logo d-flex align-items-center mb-4">
+      <div class="logo-icon d-flex align-items-center justify-content-center text-white me-2">
+        <i class="bi bi-heart-pulse-fill"></i>
+      </div>
+      <div>
+        <strong>Village Health</strong><br>
+        <small class="text-muted">Portal</small>
+      </div>
+    </div>
+    <nav class="nav flex-column">
+      <a class="nav-link" href="/patient/dashboard"><i class="bi bi-speedometer2 me-2"></i> Dashboard</a>
+      <a class="nav-link" href="/patient/add_patient"><i class="bi bi-person-plus me-2"></i> Add Patient</a>
+      <a class="nav-link" href="/patient/consultation"><i class="bi bi-chat-dots me-2"></i> Consultation</a>
+      <a class="nav-link" href="/patient/prescriptions"><i class="bi bi-file-text me-2"></i> Prescriptions</a>
+      <a class="nav-link" href="/patient/appointment"><i class="bi bi-calendar-check me-2"></i> Appointments</a>
+      <a class="nav-link" href="/patient/messages"><i class="bi bi-envelope me-2"></i> Messages</a>
+      <a class="nav-link" href="/patient/settings"><i class="bi bi-gear me-2"></i> Settings</a>
+    </nav>
+  </div>
+
+  <script>
+    // Automatically highlight the active sidebar link
+    const currentPath = window.location.pathname;
+    document.querySelectorAll('.sidebar .nav-link').forEach(link => {
+      if (link.getAttribute('href') === currentPath) {
+        link.classList.add('active');
+      }
+    });
+  </script>
+</body>
+</html>
