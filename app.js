@@ -32,6 +32,24 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+
+
+app.use((req, res, next) => {
+  res.locals.translateSnippet = `
+    <div id="google_translate_element" style="text-align:right; padding:10px;"></div>
+    <script>
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+          pageLanguage: 'en',
+          includedLanguages: 'hi,bn,ml,ta,te,gu,mr,kn,pa',
+          layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+        }, 'google_translate_element');
+      }
+    </script>
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  `;
+  next();
+});
 // ------------------ MIDDLEWARE ------------------
 app.use(logger('dev'));
 app.use(express.json());
@@ -86,7 +104,6 @@ passport.deserializeUser(async (obj, done) => {
   }
 });
 
-
 // ------------------ ROUTES ------------------
 app.use('/', indexRouter);
 app.use('/', authRouter);
@@ -96,8 +113,9 @@ app.use('/', appointmentRouter);
 // app.use('/z', patientRouter);
 
 // ------------------ ERROR HANDLING ------------------
-app.use((req, res, next) => next(createError(404)));
 
+
+app.use((req, res, next) => next(createError(404)));
 app.use((err, req, res, next) => {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
