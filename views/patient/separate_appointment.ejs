@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appointment Confirmed - Village Health</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #17a2b8;
+      --sidebar-bg: #f8f9fa;
+      --success-light: #d4f4dd;
+      --success-dark: #22c55e;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f5f5f5;
+    }
+
+    .sidebar {
+      min-height: 100vh;
+      background: var(--sidebar-bg);
+      border-right: 1px solid #dee2e6;
+    }
+
+    .sidebar .nav-link {
+      color: #6c757d;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      margin: 4px 0;
+    }
+
+    .sidebar .nav-link.active {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    .breadcrumb {
+      background: transparent;
+      padding: 0;
+      margin-bottom: 1rem;
+    }
+
+    .breadcrumb-item {
+      color: #6c757d;
+      font-size: 0.875rem;
+    }
+
+    .breadcrumb-item.active {
+      color: #212529;
+      font-weight: 500;
+    }
+
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      background: var(--success-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+    }
+
+    .success-icon i {
+      color: var(--success-dark);
+      font-size: 3rem;
+    }
+
+    .confirmation-card {
+      background: white;
+      border-radius: 12px;
+      padding: 3rem 2rem;
+      text-align: center;
+      border: 1px solid #e9ecef;
+      margin-bottom: 2rem;
+    }
+
+    .details-card {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      border: 1px solid #e9ecef;
+      margin-bottom: 1.5rem;
+    }
+
+    .details-card h5 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .details-card h5 i {
+      color: var(--primary-color);
+    }
+
+    .detail-row {
+      margin-bottom: 1.25rem;
+    }
+
+    .detail-label {
+      color: #6c757d;
+      font-size: 0.875rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .detail-value {
+      color: #212529;
+      font-weight: 500;
+      font-size: 1rem;
+    }
+
+    .badge-specialty {
+      background: #e7f6f8;
+      color: var(--primary-color);
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      display: inline-block;
+    }
+
+    .consultation-mode {
+      color: var(--primary-color);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .next-steps-card {
+      background: #e8f5f7;
+      border-radius: 12px;
+      padding: 2rem;
+      border: 1px solid #c5e8ed;
+      margin-bottom: 1.5rem;
+    }
+
+    .next-steps-card h5 {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      color: #212529;
+    }
+
+    .countdown-box {
+      background: #d0eff4;
+      border-radius: 10px;
+      padding: 1.5rem;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .countdown-box p {
+      color: #6c757d;
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .countdown-time {
+      color: var(--primary-color);
+      font-size: 2rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-join {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 0.75rem 2rem;
+      border-radius: 8px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-join:hover {
+      background: #138496;
+      color: white;
+    }
+
+    .btn-secondary-action {
+      background: white;
+      color: #212529;
+      border: 1px solid #dee2e6;
+      padding: 0.75rem 2rem;
+      border-radius: 8px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-secondary-action:hover {
+      background: #f8f9fa;
+      color: #212529;
+    }
+
+    .info-box {
+      background: #fff8e6;
+      border-left: 3px solid #ffc107;
+      padding: 1rem;
+      border-radius: 6px;
+      display: flex;
+      align-items: start;
+      gap: 0.75rem;
+    }
+
+    .info-box i {
+      color: #ffc107;
+      margin-top: 0.125rem;
+    }
+
+    .info-box p {
+      margin: 0;
+      color: #666;
+      font-size: 0.875rem;
+    }
+
+    @media (max-width: 768px) {
+      .action-buttons {
+        flex-direction: column;
+      }
+
+      .action-buttons button {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar -->
+      <%- include('../partials/Menubar') %>
+
+      <!-- Main Content -->
+      <div class="col-md-10 p-4">
+        
+
+        <!-- Success Confirmation -->
+        <div class="confirmation-card">
+          <div class="success-icon">
+            <i class="bi bi-check-lg"></i>
+          </div>
+          <h4 class="mb-2">Appointment Scheduled Successfully!</h4>
+          <p class="text-muted mb-0">Your consultation has been confirmed. Details are below.</p>
+        </div>
+
+        <!-- Details Section -->
+        <div class="row">
+          <!-- Patient Details -->
+          <div class="col-md-6">
+            <div class="details-card">
+              <h5><i class="bi bi-person"></i> Patient Details</h5>
+              
+              <div class="detail-row">
+                <div class="detail-label">Name</div>
+                <div class="detail-value"><%= appointment.fullName %></div>
+              </div>
+
+              <div class="row">
+                <div class="col-6">
+                  <div class="detail-row">
+                    <div class="detail-label">Age</div>
+                    <div class="detail-value"><%= appointment.age %> years</div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="detail-row">
+                    <div class="detail-label">Gender</div>
+                    <div class="detail-value"><%= appointment.gender %></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="detail-row">
+                <div class="detail-label"><i class="bi bi-geo-alt"></i> Village</div>
+                <div class="detail-value"><%= appointment.village %></div>
+              </div>
+
+              <div class="detail-row">
+                <div class="detail-label"><i class="bi bi-telephone"></i> Contact Number</div>
+                <div class="detail-value"><%= appointment.contactNumber || '+91 98765 43210' %></div>
+              </div>
+
+              <div class="detail-row">
+                <div class="detail-label">Symptoms</div>
+                <div class="detail-value"><%= appointment.symptoms %></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Doctor Details -->
+          <div class="col-md-6">
+            <div class="details-card">
+              <h5><i class="bi bi-heart-pulse"></i> Doctor Details</h5>
+              
+              <div class="detail-row">
+                <div class="detail-label">Assigned Doctor</div>
+                <div class="detail-value">
+                  <%= appointment.assignedDoctor ? appointment.assignedDoctor.name : 'Dr. Priya Sharma' %>
+                </div>
+              </div>
+
+              <div class="detail-row">
+                <div class="detail-label">Specialty</div>
+                <div>
+                  <span class="badge-specialty">General Physician</span>
+                </div>
+              </div>
+
+              <div class="detail-row">
+                <div class="detail-label">Location</div>
+                <div class="detail-value">Village Health Center, District Hospital</div>
+              </div>
+
+              <div class="detail-row">
+                <div class="detail-label">Consultation Mode</div>
+                <div class="consultation-mode">
+                  <i class="bi bi-camera-video"></i> Video Consultation
+                </div>
+              </div>
+
+              <div class="detail-row">
+                <div class="detail-label"><i class="bi bi-calendar3"></i> Appointment Date & Time</div>
+                <div class="detail-value">2 Nov 2025 at 10:30 AM</div>
+                <div class="text-muted small">Duration: 30 minutes</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Next Steps -->
+        <div class="next-steps-card">
+          <h5><i class="bi bi-clock-history"></i> Next Steps</h5>
+          
+          <div class="countdown-box">
+            <p>Your consultation starts in</p>
+            <h2 class="countdown-time">2 hours 15 minutes</h2>
+          </div>
+
+          <div class="action-buttons mb-3">
+            <button class="btn btn-join">
+              <i class="bi bi-camera-video"></i> Join Consultation
+            </button>
+            <button class="btn btn-secondary-action">
+              <i class="bi bi-file-text"></i> View Prescription History
+            </button>
+            <button class="btn btn-secondary-action" onclick="window.location.href='/dashboard'">
+              Go to Dashboard
+            </button>
+          </div>
+
+          <div class="info-box">
+            <i class="bi bi-lightbulb"></i>
+            <p>Please be ready 10 minutes before your appointment. A stable internet connection is recommended for video consultations.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    // Countdown timer logic (optional enhancement)
+    function updateCountdown() {
+      const appointmentTime = new Date('<%= appointment.appointmentDate || "2025-11-02T10:30:00" %>');
+      const now = new Date();
+      const diff = appointmentTime - now;
+
+      if (diff > 0) {
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        
+        const countdownElement = document.querySelector('.countdown-time');
+        if (countdownElement) {
+          countdownElement.textContent = `${hours} hours ${minutes} minutes`;
+        }
+      }
+    }
+
+    // Update countdown every minute
+    setInterval(updateCountdown, 60000);
+    updateCountdown(); // Initial call
+  </script>
+</body>
+
+</html>

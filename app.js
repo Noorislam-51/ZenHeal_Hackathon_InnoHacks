@@ -16,9 +16,13 @@ connectDB();
 const Doctor = require('./models/DoctorDB');
 const Patient = require('./models/PatientDB');
 const Pharmacy = require('./models/PharmacyDB');
+const AddPatient = require('./models/AddPatientDB');
+
 // ------------------ ROUTERS ------------------
 const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
+const addPatientRouter = require('./routes/add_patient');
+const appointmentRouter = require('./routes/appointment');
 // const doctorRouter = require('./routes/doctor');
 // const patientRouter = require('./routes/patient');
 
@@ -34,6 +38,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // ------------------ SESSION & FLASH ------------------
 app.use(flash());
@@ -53,6 +58,7 @@ app.use(passport.session());
 passport.use('Doctor-local', Doctor.createStrategy());
 passport.use('Patient-local', Patient.createStrategy());
 passport.use('Pharmacy-local', Pharmacy.createStrategy());
+
 
 // ✅ Serialize user type + id
 passport.serializeUser((user, done) => {
@@ -84,8 +90,10 @@ passport.deserializeUser(async (obj, done) => {
 // ------------------ ROUTES ------------------
 app.use('/', indexRouter);
 app.use('/', authRouter);
+app.use('/patient', addPatientRouter);
+app.use('/', appointmentRouter);
 // app.use('/doctor', doctorRouter);
-// app.use('/patient', patientRouter);
+// app.use('/z', patientRouter);
 
 // ------------------ ERROR HANDLING ------------------
 app.use((req, res, next) => next(createError(404)));
