@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Village Health Portal - Appointments</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f5f5f5;
+            color: #1a1a1a;
+        }
+
+        .main-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .content-area {
+            flex: 1;
+            margin-left: 0;
+            /* Will be adjusted when sidebar is added */
+        }
+
+        .top-header {
+            background-color: #fff;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e0e0e0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .menu-icon {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+
+        .menu-icon span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: #333;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .notification-icon {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .notification-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: #333;
+            stroke-width: 2;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #dc2626;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .settings-icon {
+            cursor: pointer;
+        }
+
+        .settings-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: #333;
+            stroke-width: 2;
+        }
+
+        .doctor-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .doctor-info {
+            text-align: right;
+        }
+
+        .doctor-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #1a1a1a;
+        }
+
+        .doctor-role {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .logout-icon {
+            cursor: pointer;
+        }
+
+        .logout-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: #666;
+            stroke-width: 2;
+        }
+
+        .main-content {
+            padding: 2rem;
+            max-width: 1400px;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 1.5rem;
+        }
+
+        .appointments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .appointment-card {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .appointment-card:hover {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .patient-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .appointment-badge {
+            padding: 0.4rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .badge-video {
+            background-color: #0891b2;
+            color: white;
+        }
+
+        .badge-inperson {
+            background-color: transparent;
+            color: #0891b2;
+            border: 2px solid #0891b2;
+        }
+
+        .badge-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        .badge-icon svg {
+            width: 100%;
+            height: 100%;
+            fill: currentColor;
+        }
+
+        .appointment-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .detail-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #4b5563;
+            font-size: 0.95rem;
+        }
+
+        .detail-icon {
+            width: 18px;
+            height: 18px;
+        }
+
+        .detail-icon svg {
+            width: 100%;
+            height: 100%;
+            fill: none;
+            stroke: #666;
+            stroke-width: 2;
+        }
+
+        .reason-box {
+            background-color: #f3f4f6;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-size: 0.95rem;
+            color: #4b5563;
+        }
+
+        .action-button {
+            width: 100%;
+            padding: 0.875rem;
+            background-color: #0891b2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .action-button:hover {
+            background-color: #0e7490;
+        }
+
+        .action-button:active {
+            background-color: #155e75;
+        }
+
+        .past-appointments {
+            margin-top: 2rem;
+        }
+
+        .past-appointment-card {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .past-appointment-card:hover {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .past-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .calendar-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #f3f4f6;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .calendar-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: #666;
+            stroke-width: 2;
+        }
+
+        .past-patient-info h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 0.25rem;
+        }
+
+        .past-datetime {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .completed-badge {
+            padding: 0.4rem 1rem;
+            background-color: #f3f4f6;
+            color: #4b5563;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        @media (max-width: 1200px) {
+            .appointments-grid {
+                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1rem;
+            }
+
+            .top-header {
+                padding: 1rem;
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+            }
+
+            .doctor-profile {
+                display: none;
+            }
+
+            .appointments-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        .sidebar {
+            min-height: 100vh;
+            background-color: #f8f9fa;
+            padding: 1.5rem 0;
+        }
+
+        .sidebar .nav-link {
+            color: #495057;
+            padding: 0.75rem 1.5rem;
+            margin: 0.25rem 0;
+        }
+
+        .sidebar .nav-link:hover {
+            background-color: #e9ecef;
+        }
+
+        .logo {
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #17a2b8;
+            border-radius: 8px;
+        }
+
+        .welcome-card {
+            background-color: #d1ecf1;
+            border: none;
+            border-radius: 8px;
+        }
+
+        .action-btn {
+            padding: 2.5rem 1rem;
+            border-radius: 8px;
+            border: none;
+            text-align: center;
+        }
+
+        .btn-primary-custom {
+            background-color: #17a2b8;
+            color: white;
+        }
+
+        .appointment-card,
+        .prescription-card {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .badge-video {
+            background-color: #cfe2ff;
+            color: #084298;
+        }
+
+        .badge-followup {
+            background-color: #cff4fc;
+            color: #055160;
+        }
+
+        .notification-item {
+            border-left: 3px solid #17a2b8;
+            padding-left: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <%- include('./partials/Menubar') %>
+
+                <!-- Main Content -->
+                <div class="col-md-10 p-4">
+                    <!-- Header -->
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h4 class="mb-0">Village Health Portal</h4>
+                        <div>
+                            <button class="btn btn-link"><i class="bi bi-globe"></i></button>
+                            <button class="btn btn-link position-relative">
+                                <i class="bi bi-bell"></i>
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">1</span>
+                            </button>
+                            <button class="btn btn-link"><i class="bi bi-gear"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Welcome Card -->
+                    <div class="card welcome-card mb-4">
+                        <div class="card-body">
+                            <h5>Welcome, Ali! 👋</h5>
+                            <p class="mb-0 text-muted">Here's what's happening with your patients today.</p>
+                        </div>
+                    </div>
+
+                    <!-- Upcoming Appointments -->
+                    <section>
+                        <h3 class="section-title">Upcoming Appointments (<%= upcomingAppointments?.length || 0 %>)</h3>
+
+                        <div class="appointments-grid">
+                            <% if (upcomingAppointments && upcomingAppointments.length> 0) { %>
+                                <% upcomingAppointments.forEach(appointment=> { %>
+                                    <div class="appointment-card">
+                                        <div class="card-header">
+                                            <h4 class="patient-name">
+                                                <%= appointment.patientName %>
+                                            </h4>
+                                            <% if (appointment.type==='video' ) { %>
+                                                <div class="appointment-badge badge-video">
+                                                    <div class="badge-icon">
+                                                        <svg viewBox="0 0 24 24">
+                                                            <path d="M23 7l-7 5 7 5V7z" />
+                                                            <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+                                                        </svg>
+                                                    </div>
+                                                    Video Call
+                                                </div>
+                                                <% } else { %>
+                                                    <div class="appointment-badge badge-inperson">
+                                                        <div class="badge-icon">
+                                                            <svg viewBox="0 0 24 24">
+                                                                <path
+                                                                    d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                                                                <circle cx="12" cy="10" r="3" />
+                                                            </svg>
+                                                        </div>
+                                                        In-Person
+                                                    </div>
+                                                    <% } %>
+                                        </div>
+
+                                        <div class="appointment-details">
+                                            <div class="detail-row">
+                                                <div class="detail-icon">
+                                                    <svg viewBox="0 0 24 24">
+                                                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                                        <line x1="16" y1="2" x2="16" y2="6" />
+                                                        <line x1="8" y1="2" x2="8" y2="6" />
+                                                        <line x1="3" y1="10" x2="21" y2="10" />
+                                                    </svg>
+                                                </div>
+                                                <span>
+                                                    <%= appointment.date %>
+                                                </span>
+                                            </div>
+                                            <div class="detail-row">
+                                                <div class="detail-icon">
+                                                    <svg viewBox="0 0 24 24">
+                                                        <circle cx="12" cy="12" r="10" />
+                                                        <polyline points="12 6 12 12 16 14" />
+                                                    </svg>
+                                                </div>
+                                                <span>
+                                                    <%= appointment.time %>
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="reason-box">
+                                            Reason: <%= appointment.reason %>
+                                        </div>
+
+                                        <% if (appointment.type==='video' ) { %>
+                                            <button class="action-button">Join Call</button>
+                                            <% } else { %>
+                                                <button class="action-button">Mark as Complete</button>
+                                                <% } %>
+                                    </div>
+                                    <% }); %>
+                                        <% } else { %>
+                                            <p>No upcoming appointments</p>
+                                            <% } %>
+                        </div>
+                    </section>
+
+                    <!-- Past Appointments -->
+                    <section class="past-appointments">
+                        <h3 class="section-title">Past Appointments (<%= pastAppointments?.length || 0 %>)</h3>
+
+                        <% if (pastAppointments && pastAppointments.length> 0) { %>
+                            <% pastAppointments.forEach(appointment=> { %>
+                                <div class="past-appointment-card">
+                                    <div class="past-left">
+                                        <div class="calendar-icon">
+                                            <svg viewBox="0 0 24 24">
+                                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                                <line x1="16" y1="2" x2="16" y2="6" />
+                                                <line x1="8" y1="2" x2="8" y2="6" />
+                                                <line x1="3" y1="10" x2="21" y2="10" />
+                                            </svg>
+                                        </div>
+                                        <div class="past-patient-info">
+                                            <h3>
+                                                <%= appointment.patientName %>
+                                            </h3>
+                                            <p class="past-datetime">
+                                                <%= appointment.date %> at <%= appointment.time %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="completed-badge">Completed</div>
+                                </div>
+                                <% }); %>
+                                    <% } else { %>
+                                        <p>No past appointments</p>
+                                        <% } %>
+                    </section>
+                    </main>
+                </div>
+        </div>
+        <script>
+            // highlight both sidebar and dashboard buttons
+            const currentPath = window.location.pathname;
+
+            // sidebar active
+            document.querySelectorAll('.sidebar .nav-link').forEach(link => {
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('active');
+                }
+            });
+
+            // action buttons active
+            document.querySelectorAll('.action-btn').forEach(btn => {
+                if (btn.getAttribute('href') === currentPath) {
+                    btn.classList.add('active');
+                }
+            });
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

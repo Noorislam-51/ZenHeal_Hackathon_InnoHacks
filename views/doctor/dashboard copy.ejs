@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Village Health Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        .sidebar {
+            min-height: 100vh;
+            background-color: #f8f9fa;
+            padding: 1.5rem 0;
+        }
+
+        .sidebar .nav-link {
+            color: #495057;
+            padding: 0.75rem 1.5rem;
+            margin: 0.25rem 0;
+        }
+
+        .sidebar .nav-link:hover {
+            background-color: #e9ecef;
+        }
+
+        .logo {
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #17a2b8;
+            border-radius: 8px;
+        }
+
+        .welcome-card {
+            background-color: #d1ecf1;
+            border: none;
+            border-radius: 8px;
+        }
+
+        .action-btn {
+            padding: 2.5rem 1rem;
+            border-radius: 8px;
+            border: none;
+            text-align: center;
+        }
+
+        .btn-primary-custom {
+            background-color: #17a2b8;
+            color: white;
+        }
+
+        .appointment-card,
+        .prescription-card {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .badge-video {
+            background-color: #cfe2ff;
+            color: #084298;
+        }
+
+        .badge-followup {
+            background-color: #cff4fc;
+            color: #055160;
+        }
+
+        .notification-item {
+            border-left: 3px solid #17a2b8;
+            padding-left: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <%- include('./partials/Menubar') %>
+
+                <!-- Main Content -->
+                <div class="col-md-10 p-4">
+                    <!-- Header -->
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h4 class="mb-0">Village Health Portal</h4>
+                        <div>
+                            <button class="btn btn-link"><i class="bi bi-globe"></i></button>
+                            <button class="btn btn-link position-relative">
+                                <i class="bi bi-bell"></i>
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">1</span>
+                            </button>
+                            <button class="btn btn-link"><i class="bi bi-gear"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Welcome Card -->
+                    <div class="card welcome-card mb-4">
+                        <div class="card-body">
+                            <h5>Welcome,<%=user.fullName%>! 👋</h5>
+                            <p class="mb-0 text-muted">Here's what's happening with your patients today.</p>
+                        </div>
+                    </div>
+
+                    <div class="main-content">
+                        <div class="page-header">
+                            <h2 class="page-title">Patient Requests</h2>
+                            <p class="page-subtitle">View and accept incoming patient consultation requests</p>
+                        </div>
+
+                        <div class="section-header">
+                            <h3 class="section-title">Pending Requests</h3>
+                            <span class="pending-count">4 Pending</span>
+                        </div>
+
+                        <div class="requests-container">
+                            <!-- Request Card 1 -->
+                            <div class="request-card">
+                                <div class="card-header">
+                                    <div class="patient-info">
+                                        <div class="patient-icon">
+                                            <svg viewBox="0 0 24 24">
+                                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                                <circle cx="12" cy="7" r="4" />
+                                            </svg>
+                                        </div>
+                                        <div class="patient-details">
+                                            <h3>Ramesh Kumar, 45</h3>
+                                            <p class="village-name">Village: Khandwa</p>
+                                        </div>
+                                    </div>
+                                    <span class="priority-badge priority-high">high priority</span>
+                                </div>
+
+                                <div class="problem-section">
+                                    <div class="problem-header">
+                                        <div class="problem-icon">
+                                            <svg viewBox="0 0 24 24">
+                                                <circle cx="12" cy="12" r="10" />
+                                                <line x1="12" y1="16" x2="12" y2="12" />
+                                                <line x1="12" y1="8" x2="12.01" y2="8" />
+                                            </svg>
+                                        </div>
+                                        <span class="problem-title">Problem Description</span>
+                                    </div>
+                                    <p class="problem-description">Persistent fever and body ache for 3 days</p>
+                                </div>
+
+                                <div class="submission-time">
+                                    <div class="time-icon">
+                                        <svg viewBox="0 0 24 24">
+                                            <circle cx="12" cy="12" r="10" />
+                                            <polyline points="12 6 12 12 16 14" />
+                                        </svg>
+                                    </div>
+                                    <span>Submitted: 2024-03-15 10:30 AM</span>
+                                </div>
+
+                                <button class="action-button">Accept & Schedule Appointment</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <script>
+        // highlight both sidebar and dashboard buttons
+        const currentPath = window.location.pathname;
+
+        // sidebar active
+        document.querySelectorAll('.sidebar .nav-link').forEach(link => {
+            if (link.getAttribute('href') === currentPath) {
+                link.classList.add('active');
+            }
+        });
+
+        // action buttons active
+        document.querySelectorAll('.action-btn').forEach(btn => {
+            if (btn.getAttribute('href') === currentPath) {
+                btn.classList.add('active');
+            }
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

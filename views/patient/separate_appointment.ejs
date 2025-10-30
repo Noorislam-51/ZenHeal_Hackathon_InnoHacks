@@ -249,137 +249,150 @@
   <div class="container-fluid">
     <div class="row">
       <!-- Sidebar -->
-      <%- include('../partials/Menubar') %>
+      <%- include('./partials/Menubar') %>
 
-      <!-- Main Content -->
-      <div class="col-md-10 p-4">
-        
+        <!-- Main Content -->
+        <div class="col-md-10 p-4">
 
-        <!-- Success Confirmation -->
-        <div class="confirmation-card">
-          <div class="success-icon">
-            <i class="bi bi-check-lg"></i>
+
+          <!-- Success Confirmation -->
+          <div class="confirmation-card">
+            <div class="success-icon">
+              <i class="bi bi-check-lg"></i>
+            </div>
+            <h4 class="mb-2">Appointment Scheduled Successfully!</h4>
+            <p class="text-muted mb-0">Your consultation has been confirmed. Details are below.</p>
           </div>
-          <h4 class="mb-2">Appointment Scheduled Successfully!</h4>
-          <p class="text-muted mb-0">Your consultation has been confirmed. Details are below.</p>
-        </div>
 
-        <!-- Details Section -->
-        <div class="row">
-          <!-- Patient Details -->
-          <div class="col-md-6">
-            <div class="details-card">
-              <h5><i class="bi bi-person"></i> Patient Details</h5>
-              
-              <div class="detail-row">
-                <div class="detail-label">Name</div>
-                <div class="detail-value"><%= appointment.fullName %></div>
-              </div>
+          <!-- Details Section -->
+          <div class="row">
+            <!-- Patient Details -->
+            <div class="col-md-6">
+              <div class="details-card">
+                <h5><i class="bi bi-person"></i> Patient Details</h5>
 
-              <div class="row">
-                <div class="col-6">
-                  <div class="detail-row">
-                    <div class="detail-label">Age</div>
-                    <div class="detail-value"><%= appointment.age %> years</div>
+                <div class="detail-row">
+                  <div class="detail-label">Name</div>
+                  <div class="detail-value">
+                    <%= appointment.fullName %>
                   </div>
                 </div>
-                <div class="col-6">
-                  <div class="detail-row">
-                    <div class="detail-label">Gender</div>
-                    <div class="detail-value"><%= appointment.gender %></div>
+
+                <div class="row">
+                  <div class="col-6">
+                    <div class="detail-row">
+                      <div class="detail-label">Age</div>
+                      <div class="detail-value">
+                        <%= appointment.age %> years
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="detail-row">
+                      <div class="detail-label">Gender</div>
+                      <div class="detail-value">
+                        <%= appointment.gender %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="detail-row">
+                  <div class="detail-label"><i class="bi bi-geo-alt"></i> Village</div>
+                  <div class="detail-value">
+                    <%= appointment.village %>
+                  </div>
+                </div>
+
+                <div class="detail-row">
+                  <div class="detail-label"><i class="bi bi-telephone"></i> Contact Number</div>
+                  <div class="detail-value">
+                    <%= appointment.contactNumber || '+91 98765 43210' %>
+                  </div>
+                </div>
+
+                <div class="detail-row">
+                  <div class="detail-label">Symptoms</div>
+                  <div class="detail-value">
+                    <%= appointment.symptoms %>
                   </div>
                 </div>
               </div>
+            </div>
 
-              <div class="detail-row">
-                <div class="detail-label"><i class="bi bi-geo-alt"></i> Village</div>
-                <div class="detail-value"><%= appointment.village %></div>
-              </div>
+            <!-- Doctor Details -->
+            <div class="col-md-6">
+              <div class="details-card">
+                <h5><i class="bi bi-heart-pulse"></i> Doctor Details</h5>
 
-              <div class="detail-row">
-                <div class="detail-label"><i class="bi bi-telephone"></i> Contact Number</div>
-                <div class="detail-value"><%= appointment.contactNumber || '+91 98765 43210' %></div>
-              </div>
+                <div class="detail-row">
+                  <div class="detail-label">Assigned Doctor</div>
+                  <div class="detail-value">
+                    <%= appointment.assignedDoctor ? appointment.assignedDoctor.name : 'Dr. Priya Sharma' %>
+                  </div>
+                </div>
 
-              <div class="detail-row">
-                <div class="detail-label">Symptoms</div>
-                <div class="detail-value"><%= appointment.symptoms %></div>
+                <div class="detail-row">
+                  <div class="detail-label">Specialty</div>
+                  <div>
+                    <span class="badge-specialty">General Physician</span>
+                  </div>
+                </div>
+
+                <div class="detail-row">
+                  <div class="detail-label">Location</div>
+                  <div class="detail-value">Village Health Center, District Hospital</div>
+                </div>
+
+                <div class="detail-row">
+                  <div class="detail-label">Consultation Mode</div>
+                  <div class="consultation-mode">
+                    <i class="bi bi-camera-video"></i> Video Consultation
+                  </div>
+                </div>
+
+                <div class="detail-row">
+                  <div class="detail-label"><i class="bi bi-calendar3"></i> Appointment Date & Time</div>
+                  <div class="detail-value">2 Nov 2025 at 10:30 AM</div>
+                  <div class="text-muted small">Duration: 30 minutes</div>
+                </div>
               </div>
             </div>
           </div>
 
-          <!-- Doctor Details -->
-          <div class="col-md-6">
-            <div class="details-card">
-              <h5><i class="bi bi-heart-pulse"></i> Doctor Details</h5>
-              
-              <div class="detail-row">
-                <div class="detail-label">Assigned Doctor</div>
-                <div class="detail-value">
-                  <%= appointment.assignedDoctor ? appointment.assignedDoctor.name : 'Dr. Priya Sharma' %>
-                </div>
-              </div>
+          <!-- Next Steps -->
+          <div class="next-steps-card">
+            <h5><i class="bi bi-clock-history"></i> Next Steps</h5>
 
-              <div class="detail-row">
-                <div class="detail-label">Specialty</div>
-                <div>
-                  <span class="badge-specialty">General Physician</span>
-                </div>
-              </div>
+            <div class="countdown-box">
+              <p>Your consultation starts in</p>
+              <h2 class="countdown-time">2 hours 15 minutes</h2>
+            </div>
 
-              <div class="detail-row">
-                <div class="detail-label">Location</div>
-                <div class="detail-value">Village Health Center, District Hospital</div>
-              </div>
+            <div class="action-buttons mb-3">
+              <button class="btn btn-join">
+                <i class="bi bi-camera-video"></i> Join Consultation
+              </button>
+              <button class="btn btn-secondary-action">
+                <i class="bi bi-file-text"></i> View Prescription History
+              </button>
+              <button class="btn btn-secondary-action" onclick="window.location.href='/dashboard'">
+                Go to Dashboard
+              </button>
+            </div>
 
-              <div class="detail-row">
-                <div class="detail-label">Consultation Mode</div>
-                <div class="consultation-mode">
-                  <i class="bi bi-camera-video"></i> Video Consultation
-                </div>
-              </div>
-
-              <div class="detail-row">
-                <div class="detail-label"><i class="bi bi-calendar3"></i> Appointment Date & Time</div>
-                <div class="detail-value">2 Nov 2025 at 10:30 AM</div>
-                <div class="text-muted small">Duration: 30 minutes</div>
-              </div>
+            <div class="info-box">
+              <i class="bi bi-lightbulb"></i>
+              <p>Please be ready 10 minutes before your appointment. A stable internet connection is recommended for
+                video consultations.</p>
             </div>
           </div>
         </div>
-
-        <!-- Next Steps -->
-        <div class="next-steps-card">
-          <h5><i class="bi bi-clock-history"></i> Next Steps</h5>
-          
-          <div class="countdown-box">
-            <p>Your consultation starts in</p>
-            <h2 class="countdown-time">2 hours 15 minutes</h2>
-          </div>
-
-          <div class="action-buttons mb-3">
-            <button class="btn btn-join">
-              <i class="bi bi-camera-video"></i> Join Consultation
-            </button>
-            <button class="btn btn-secondary-action">
-              <i class="bi bi-file-text"></i> View Prescription History
-            </button>
-            <button class="btn btn-secondary-action" onclick="window.location.href='/dashboard'">
-              Go to Dashboard
-            </button>
-          </div>
-
-          <div class="info-box">
-            <i class="bi bi-lightbulb"></i>
-            <p>Please be ready 10 minutes before your appointment. A stable internet connection is recommended for video consultations.</p>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  
+
   <script>
     // Countdown timer logic (optional enhancement)
     function updateCountdown() {
@@ -390,7 +403,7 @@
       if (diff > 0) {
         const hours = Math.floor(diff / (1000 * 60 * 60));
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        
+
         const countdownElement = document.querySelector('.countdown-time');
         if (countdownElement) {
           countdownElement.textContent = `${hours} hours ${minutes} minutes`;

@@ -100,18 +100,25 @@
 <body>
   <div class="container-fluid">
     <div class="row">
-      <%- include('../partials/Menubar') %>
-           <!-- Main Content -->
-        <div class="col-md-10 p-4">
-          <div class="d-flex justify-content-between align-items-center mb-4">
-            <h4 class="mb-0">Add Patient</h4>
-            <div>
-              <button class="btn btn-link"><i class="bi bi-globe"></i></button>
-              <button class="btn btn-link position-relative">
-                <i class="bi bi-bell"></i>
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">1</span>
-              </button>
-                <button class="btn btn-link text-dark"> <%- translateSnippet %></button>
+      <%- include('./partials/Menubar') %>
+
+        <!-- Main Content -->
+        <div class="col-md-10 main-content p-0">
+          <!-- Header -->
+          <div class="bg-white border-bottom p-3">
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="d-flex align-items-center">
+                <!-- <button class="btn btn-link text-dark me-3"><i class="bi bi-list fs-4"></i></button> -->
+                <h5 class="mb-0">Add New Patient</h5>
+              </div>
+              <div>
+                <button class="btn btn-link text-dark"><i class="bi bi-globe"></i></button>
+                <button class="btn btn-link text-dark position-relative">
+                  <i class="bi bi-bell"></i>
+                  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">1</span>
+                </button>
+                <button class="btn btn-link text-dark"><i class="bi bi-gear"></i></button>
+              </div>
             </div>
           </div>
 
@@ -253,8 +260,8 @@
             </form>
           </div>
 
+        </div>
     </div>
-  </div>
   </div>
   <script>
     // When category changes
