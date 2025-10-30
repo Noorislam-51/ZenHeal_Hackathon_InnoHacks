@@ -15,6 +15,6 @@ const doctorSchema = new mongoose.Schema({
 // Use doctorId as the username for authentication
 doctorSchema.plugin(plm, { usernameField: "doctorId" });
 
-const Doctor = mongoose.model("Doctor", doctorSchema);
+const Doctor = mongoose.model("Doctor", doctorSchema,"doctors");
 
 module.exports = Doctor;
