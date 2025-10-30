@@ -24,7 +24,14 @@ router.get('/login/pharmacy', function(req, res, next) {
 // });
 
 router.get('/patient/dashboard', function(req, res, next) {
-  res.render('./patient/dashboard');
+  if (!req.isAuthenticated()) {
+    return res.redirect('/login');
+  }
+  console.log("Patient Data")
+  console.log(req.user);           // Entire patient object
+  console.log(req.user._id);       // ✅ Patient's MongoDB ID
+  console.log(req.user.fullName); 
+  res.render('./patient/dashboard',{"user":req.user});
 });
 router.get('/patient/consultation', function(req, res, next) {
   res.render('./patient/consultation');

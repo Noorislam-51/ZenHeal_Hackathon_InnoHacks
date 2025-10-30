@@ -125,33 +125,33 @@
         <!-- Welcome Card -->
         <div class="card welcome-card mb-4">
           <div class="card-body">
-            <h5>Welcome, Noor! 👋</h5>
+            <h5>Welcome, <%=user.fullName%>! 👋</h5>
             <p class="mb-0 text-muted">Here's what's happening with your patients today.</p>
           </div>
         </div>
-<!-- Action Buttons -->
-<div class="row mb-4">
-  <div class="col-md-4">
-    <a href="/patient/consultation" class="btn action-btn btn-primary-custom w-100">
-      <i class="bi bi-chat-dots d-block fs-3 mb-2"></i>
-      Start Consultation
-    </a>
-  </div>
+        <!-- Action Buttons -->
+        <div class="row mb-4">
+          <div class="col-md-4">
+            <a href="/patient/consultation" class="btn action-btn btn-primary-custom w-100">
+              <i class="bi bi-chat-dots d-block fs-3 mb-2"></i>
+              Start Consultation
+            </a>
+          </div>
 
-  <div class="col-md-4">
-    <a href="/add-patient" class="btn action-btn bg-light w-100">
-      <i class="bi bi-person-plus d-block fs-3 mb-2"></i>
-      Add Patient
-    </a>
-  </div>
+          <div class="col-md-4">
+            <a href="/add-patient" class="btn action-btn bg-light w-100">
+              <i class="bi bi-person-plus d-block fs-3 mb-2"></i>
+              Add Patient
+            </a>
+          </div>
 
-  <div class="col-md-4">
-    <a href="/prescriptions" class="btn action-btn bg-light w-100">
-      <i class="bi bi-file-text d-block fs-3 mb-2"></i>
-      My Prescriptions
-    </a>
-  </div>
-</div>
+          <div class="col-md-4">
+            <a href="/prescriptions" class="btn action-btn bg-light w-100">
+              <i class="bi bi-file-text d-block fs-3 mb-2"></i>
+              My Prescriptions
+            </a>
+          </div>
+        </div>
 
 
         <!-- Appointments and Prescriptions -->
