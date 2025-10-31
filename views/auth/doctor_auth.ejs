@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,19 +15,19 @@
     body {
       background: linear-gradient(135deg, #0dcaf0, #6610f2);
       min-height: 100vh;
-      display: flex; 
+      display: flex;
       align-items: flex-start;
       padding-top: 60px;
       justify-content: center;
       font-family: "Poppins", sans-serif;
-        
+
     }
 
     .flip-container {
       perspective: 1000px;
       width: 420px;
       max-width: 95%;
-          transform: translateY(10px); 
+      transform: translateY(10px);
     }
 
     .flip-card {
@@ -39,7 +40,7 @@
     .flip-card.flipped {
       transform: rotateY(180deg);
     }
-        
+
     .flip-card-front,
     .flip-card-back {
       background: #fff;
@@ -144,9 +145,10 @@
 
         <form action="/login/doctor" method="POST">
           <div class="mb-3">
-            <label for="doctorId" class="form-label">Doctor ID</label>
-            <input type="text" class="form-control" id="doctorId" name="doctorId" required>
+            <label for="loginEmail" class="form-label">Email Address</label>
+            <input type="email" class="form-control" id="loginEmail" name="email" required>
           </div>
+
 
           <div class="mb-3">
             <label for="doctorPassword" class="form-label">Password</label>
@@ -177,10 +179,6 @@
             <input type="text" class="form-control" id="fullName" name="fullName" required>
           </div>
 
-          <div class="mb-3">
-            <label for="doctorId" class="form-label">Doctor ID</label>
-            <input type="text" class="form-control" id="doctorId" name="doctorId" required>
-          </div>
 
           <div class="mb-3">
             <label for="email" class="form-label">Official Email</label>
@@ -250,4 +248,5 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

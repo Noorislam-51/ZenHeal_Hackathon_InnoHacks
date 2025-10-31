@@ -61,9 +61,7 @@ router.get('/doctor/patients', function(req,res,next){
   res.render('./doctor/patient_req')
 })
 
-router.get('/pharmacy', function(req,res,next){
-  res.render('./pharmacy/pharmacyDashboard.ejs')
-})
+
 
 
 router.get('/doctor/appointments',function(req,res,next){
@@ -105,5 +103,9 @@ router.get('/doctor/appointments',function(req,res,next){
     ]
 }
   res.render('./doctor/appointments',data)
+})
+
+router.get('/pharmacy/dashboard', function(req,res,next){
+  res.render('./pharmacy/pharmacyDashboard.ejs')
 })
 module.exports = router;

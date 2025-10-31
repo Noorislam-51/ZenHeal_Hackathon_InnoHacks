@@ -10,30 +10,30 @@ const router = express.Router();
 
 // ✅ Render Patient Login Page
 router.get('/login/patient', (req, res) => {
-  res.render('auth/patient_auth'); // ensure views/auth/patient_auth.ejs exists
+  res.render('auth/patient_auth');  
 });
 
 // ✅ Patient Registration
 router.post('/register/patient', async (req, res) => {
   try {
-    const { fullName, patientId, email, phone, password, confirmPassword } = req.body;
+    const { fullName, email, phone, password, confirmPassword } = req.body;
 
     if (password !== confirmPassword) {
       req.flash('error', 'Passwords do not match');
       return res.redirect('/login/patient');
     }
 
-    const existingPatient = await Patient.findOne({ $or: [{ patientId }, { email }] });
+    const existingPatient = await Patient.findOne({ $or: [{ email }] });
     if (existingPatient) {
-      req.flash('error', 'Patient ID or Email already exists.');
+      req.flash('error', 'Email already exists.');
       return res.redirect('/login/patient');
     }
 
-    const newPatient = new Patient({ fullName, patientId, email, phone });
+    const newPatient = new Patient({ fullName, email, phone });
     await Patient.register(newPatient, password);
 
     req.flash('success', 'Patient account created successfully. Please log in.');
-    res.redirect('/patient/dashboard'); // ✅ redirect to correct page
+    res.redirect('/login/patient'); // ✅ redirect to correct page
   } catch (err) {
     console.error('❌ Patient Registration Error:', err);
     req.flash('error', 'Error creating patient account. Try again.');
@@ -81,7 +81,7 @@ router.post('/register/doctor', async (req, res) => {
     await Doctor.register(newDoctor, password);
 
     req.flash('success', 'Doctor account created successfully. Please log in.');
-    res.redirect('/patient/dashboard'); // ✅ redirect to correct page
+    res.redirect('/doctor/dashboard'); // ✅ redirect to correct page
   } catch (err) {
     console.error('❌ Doctor Registration Error:', err);
     req.flash('error', 'Error creating doctor account. Try again.');
@@ -132,7 +132,7 @@ router.post('/register/pharmacy', async (req, res) => {
     await Pharmacy.register(newStore, password);
 
     req.flash('success', 'Pharmacy account created successfully. Please log in.');
-    res.redirect('/doctor/dashboard');
+    res.redirect('/pharmacy/dashboard');
   } catch (err) {
     console.error('❌ Pharmacy Registration Error:', err);
     req.flash('error', 'Error creating pharmacy account. Try again.');
@@ -149,7 +149,7 @@ router.post(
   }),
   (req, res) => {
     req.flash('success', 'Pharmacy login successful!');
-    res.redirect('/patient/dashboard'); // redirect to pharmacy dashboard or landing page
+    res.redirect('/pharmacy/dashboard'); // redirect to pharmacy dashboard or landing page
   }
 );
 // -------------------- LOGOUT --------------------

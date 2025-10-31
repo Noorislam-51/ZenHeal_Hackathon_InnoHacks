@@ -3,17 +3,17 @@ const plm = require("passport-local-mongoose");
 
 // Patient Schema
 const patientSchema = new mongoose.Schema({
-   fullName: { type: String, required: true },
-  patientId: { type: String, required: true, unique: true }, // used for login
+  fullName: { type: String, required: true },
   email: { type: String, required: true, unique: true, lowercase: true },
   phone: { type: String },
-  assignedDoctor: { type: mongoose.Schema.Types.ObjectId, ref: "Doctor" }, // Doctor reference
+  location: {type:String},
+  gender: {type:String},
 }, 
 { timestamps: true }
 );
 
-// Use patientId as login username
-patientSchema.plugin(plm, { usernameField: "patientId" });
+// Use email as login username
+patientSchema.plugin(plm, { usernameField: "email" });
 
 const Patient = mongoose.model("Patient", patientSchema);
 module.exports = Patient;

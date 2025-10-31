@@ -16,7 +16,7 @@ connectDB();
 const Doctor = require('./models/DoctorDB');
 const Patient = require('./models/PatientDB');
 const Pharmacy = require('./models/PharmacyDB');
-const AddPatient = require('./models/AddPatientDB');
+const AddPatient = require('./models/AppointmentDB');
 
 // ------------------ ROUTERS ------------------
 const indexRouter = require('./routes/index');
@@ -127,5 +127,5 @@ module.exports = app;
 
 
 // Start server
-// const PORT = 3000;
-// app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+const PORT = 3000;
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

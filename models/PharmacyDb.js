@@ -5,7 +5,6 @@ const plm = require("passport-local-mongoose");
 const pharmacySchema = new mongoose.Schema(
   {
     storeName: { type: String, required: true },
-    storeId: { type: String, required: true, unique: true }, // used for login
     email: { type: String, required: true, unique: true, lowercase: true },
     phone: { type: String, required: true },
     ownerName: { type: String, required: true },
@@ -16,7 +15,7 @@ const pharmacySchema = new mongoose.Schema(
 );
 
 // Use storeId as login username
-pharmacySchema.plugin(plm, { usernameField: "storeId" });
+pharmacySchema.plugin(plm, { usernameField: "email" });
 
-const PharmacyStore = mongoose.model("PharmacyStore", pharmacySchema);
+const PharmacyStore = mongoose.model("Pharmacy", pharmacySchema,"pharmacies");
 module.exports = PharmacyStore;

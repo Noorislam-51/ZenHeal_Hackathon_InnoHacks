@@ -3,7 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
-const AddPatient = require('../models/AddPatientDB');
+const Appointment = require('../models/AppointmentDB');
 
 // ===================================
 // 🔹 Multer setup for file uploads
@@ -60,7 +60,7 @@ router.post('/add_patient', upload.single('photoFile'), async (req, res) => {
     // ===================================
     // 💾 Save new patient record
     // ===================================
-    const newPatient = new AddPatient({
+    const newPatient = new Appointment({
       fullName,
       age: Number(age),
       gender,
