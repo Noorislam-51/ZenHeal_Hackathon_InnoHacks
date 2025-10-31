@@ -1,26 +1,15 @@
 const mongoose = require('mongoose');
 
 const appointmentSchema = new mongoose.Schema({
-  fullName: {
-    type: String,
-    required: true,
-    trim: true
+  patient_id:{
+    type: mongoose.Schema.Types.ObjectId,
+    required:true
   },
-  age: {
-    type: Number,
-    required: true
+  doctor_id:{
+    type: mongoose.Schema.Types.ObjectId,
   },
-  gender: {
-    type: String,
-    enum: ['male', 'female', 'other'],
-    required: true
-  },
-  village: {
-    type: String,
-    required: true
-  },
-  contact: {
-    type: String
+  health_worker_id:{
+    type: mongoose.Schema.Types.ObjectId,
   },
   symptoms: {
     type: String
@@ -29,9 +18,6 @@ const appointmentSchema = new mongoose.Schema({
     type: String,
     enum: ['General', 'Fever', 'Injury', 'Eye', 'Skin', 'Maternal', 'Other'],
     required: true
-  },
-  photo: {
-    type: String // stores filename or path
   },
   audioNote: {
     type: String // stores filename or path
@@ -45,6 +31,11 @@ const appointmentSchema = new mongoose.Schema({
     type: String,
     enum: ['Pending', 'Accepted', 'In Progress', 'Completed'],
     default: 'Pending'
+  },
+  mode:{
+    type:String,
+    enum:["Phone-Call","Video-Call","Message"],
+    default:'Video-Call'
   },
   createdAt: {
     type: Date,

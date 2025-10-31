@@ -3,11 +3,32 @@ const plm = require("passport-local-mongoose");
 
 // Patient Schema
 const patientSchema = new mongoose.Schema({
-  fullName: { type: String, required: true },
+  fullName: {
+      type: String,
+      required: true,
+      trim: true
+    },
+    age: {
+      type: Number,
+      
+    },
+    gender: {
+      type: String,
+      enum: ['male', 'female', 'other'],
+      
+    },
+    village: {
+      type: String
+    },
+    contact: {
+      type: String
+    },
+    photo: {
+    type: String // stores filename or path
+  },
   email: { type: String, required: true, unique: true, lowercase: true },
   phone: { type: String },
-  location: {type:String},
-  gender: {type:String},
+  location: {type:String}
 }, 
 { timestamps: true }
 );

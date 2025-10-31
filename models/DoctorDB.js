@@ -4,9 +4,10 @@ const plm = require("passport-local-mongoose");
 // Doctor Schema
 const doctorSchema = new mongoose.Schema({
   fullName: { type: String, required: true },
+  age:{type:Number},
   email: { type: String, required: true, unique: true, lowercase: true },
   phone: { type: String },
-  patients: [{ type: mongoose.Schema.Types.ObjectId, ref: "Patient" }], // linked patients
+  specialty: {type:String}
 }, 
 { timestamps: true }
 );

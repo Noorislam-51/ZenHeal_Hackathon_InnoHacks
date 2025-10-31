@@ -8,13 +8,16 @@ const pharmacySchema = new mongoose.Schema(
     email: { type: String, required: true, unique: true, lowercase: true },
     phone: { type: String, required: true },
     ownerName: { type: String, required: true },
-    linkedDoctor: { type: mongoose.Schema.Types.ObjectId, ref: "Doctor" },
-    linkedPatient: { type: mongoose.Schema.Types.ObjectId, ref: "Patient" },
+    stock: {
+    type: Map,
+    of: Number, // the quantity will always be a number
+    default: {} // start with an empty stock
+  }
   },
   { timestamps: true }
 );
 
-// Use storeId as login username
+// Use email as login username
 pharmacySchema.plugin(plm, { usernameField: "email" });
 
 const PharmacyStore = mongoose.model("Pharmacy", pharmacySchema,"pharmacies");
