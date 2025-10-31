@@ -37,6 +37,10 @@ router.get('/patient/consultation', function(req, res, next) {
   res.render('./patient/consultation');
 });
 
+router.get('/patient/prescriptionNoor', function(req, res, next) {
+  res.render('./patient/prescription');
+});
+
 router.get('/patient/add_patient', function(req, res, next) {
   res.render('./patient/add_patient');
 });
@@ -56,6 +60,11 @@ router.get('/doctor/dashboard', function(req, res, next) {
 router.get('/doctor/patients', function(req,res,next){
   res.render('./doctor/patient_req')
 })
+
+router.get('/pharmacy', function(req,res,next){
+  res.render('./pharmacy/pharmacyDashboard.ejs')
+})
+
 
 router.get('/doctor/appointments',function(req,res,next){
   data = {
