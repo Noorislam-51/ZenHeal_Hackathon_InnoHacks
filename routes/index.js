@@ -37,9 +37,9 @@ router.get('/patient/consultation', function(req, res, next) {
   res.render('./patient/consultation');
 });
 
-router.get('/patient/prescriptionNoor', function(req, res, next) {
-  res.render('./patient/prescription');
-});
+// router.get('/patient/prescriptionNoor', function(req, res, next) {
+//   res.render('./patient/prescription');
+// });
 
 router.get('/patient/add_patient', function(req, res, next) {
   res.render('./patient/add_patient');
@@ -105,7 +105,7 @@ router.get('/doctor/appointments',function(req,res,next){
   res.render('./doctor/appointments',data)
 })
 
-router.get('/pharmacy/dashboard', function(req,res,next){
-  res.render('./pharmacy/pharmacyDashboard.ejs')
-})
+// router.get('/pharmacy/dashboard', function(req,res,next){
+//   res.render('./pharmacy/dashboard.ejs')
+// })
 module.exports = router;
