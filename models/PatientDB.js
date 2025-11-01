@@ -26,7 +26,7 @@ const patientSchema = new mongoose.Schema({
     photo: {
     type: String // stores filename or path
   },
-  email: { type: String, required: true, unique: true, lowercase: true },
+  email: { type: String, unique: true, lowercase: true },
   phone: { type: String },
   location: {type:String}
 }, 
