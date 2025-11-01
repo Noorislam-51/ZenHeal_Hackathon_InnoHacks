@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Village Health Portal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    .sidebar {
+      min-height: 100vh;
+      background-color: #f8f9fa;
+      padding: 1.5rem 0;
+    }
+
+    .sidebar .nav-link {
+      color: #495057;
+      padding: 0.75rem 1.5rem;
+      margin: 0.25rem 0;
+    }
+
+    .sidebar .nav-link:hover {
+      background-color: #e9ecef;
+    }
+
+    .welcome-card {
+      background-color: #d1ecf1;
+      border: none;
+      border-radius: 8px;
+    }
+
+    .request-card {
+      background-color: #fff;
+      border-radius: 12px;
+      padding: 1.75rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      transition: box-shadow 0.3s ease;
+      margin-bottom: 1.5rem;
+      cursor: pointer;
+    }
+
+    .request-card:hover {
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .problem-description {
+      color: #4b5563;
+      margin-left: 1.75rem;
+      line-height: 1.5;
+    }
+
+    .modal-content {
+      border-radius: 12px;
+    }
+
+    .modal-header {
+      background: #0891b2;
+      color: white;
+    }
+
+    .btn-primary {
+      background-color: #0891b2;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background-color: #0e7490;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <%- include('./partials/Menubar') %>
+
+      <div class="col-md-10 p-4">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h4 class="mb-0">Village Health Portal</h4>
+          <div>
+            <button class="btn btn-link"><i class="bi bi-globe"></i></button>
+            <button class="btn btn-link position-relative">
+              <i class="bi bi-bell"></i>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">1</span>
+            </button>
+            <button class="btn btn-link"><i class="bi bi-gear"></i></button>
+          </div>
+        </div>
+
+        <!-- Welcome -->
+        <div class="card welcome-card mb-4">
+          <div class="card-body">
+            <h5>Welcome, Dr. Ali! 👋</h5>
+            <p class="mb-0 text-muted">Here's what's happening with your patients today.</p>
+          </div>
+        </div>
+
+        <!-- Requests Section -->
+        <div class="main-content">
+          <div class="page-header">
+            <h2 class="page-title">Patient Requests</h2>
+            <p class="page-subtitle">View and accept incoming patient consultation requests</p>
+          </div>
+
+          <div class="section-header d-flex justify-content-between align-items-center">
+            <h3 class="section-title">Pending Requests</h3>
+            <span class="pending-count"><%= data.appointments.length %> Pending</span>
+          </div>
+
+          <div class="requests-container mt-3">
+            <% data.appointments.forEach((user) => { %>
+              <div class="request-card" data-bs-toggle="modal" data-bs-target="#modal-<%= user._id %>">
+                <div class="card-header d-flex justify-content-between align-items-start mb-3">
+                  <div class="patient-info d-flex align-items-center gap-2">
+                    <i class="bi bi-person-circle fs-4"></i>
+                    <div>
+                      <h5><%= user.fullName || "Patient" %>, <%= user.age || "-" %></h5>
+                      <p class="village-name mb-0 text-muted">Village: <%= user.village || "N/A" %></p>
+                    </div>
+                  </div>
+                  <span class="badge <%= user.status === 'Pending' ? 'bg-danger' : 'bg-success' %>">
+                    <%= user.status %>
+                  </span>
+                </div>
+                <div class="problem-section mb-3">
+                  <h6>Problem Description</h6>
+                  <p class="problem-description"><%= user.problem %></p>
+                </div>
+                <p class="text-muted small">
+                  Submitted:
+                  <%= new Date(user.createdAt).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) %>
+                </p>
+              </div>
+
+              <!-- Modal for Scheduling -->
+              <div class="modal fade" id="modal-<%= user._id %>" tabindex="-1" aria-labelledby="modalLabel-<%= user._id %>" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <form action="/doctor/accept/<%= user._id %>" method="POST">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Schedule Appointment</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="mb-3">
+                          <label class="form-label">Date</label>
+                          <input type="date" name="scheduleDate" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                          <label class="form-label">Time</label>
+                          <input type="time" name="scheduleTime" class="form-control" required>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary w-100">Accept & Save</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            <% }) %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ✅ JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+document.querySelectorAll('.modal form').forEach(form => {
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+    const id = form.action.split('/').pop();
+
+    // Send to backend
+    const res = await fetch(`/doctor/accept/${id}`, {
+      method: 'POST',
+      body: formData
+    });
+
+    if (res.ok) {
+      // ✅ 1. Update badge
+      const card = document.querySelector(`[data-bs-target="#modal-${id}"]`);
+      const badge = card.querySelector('.badge');
+      badge.textContent = 'Accepted';
+      badge.classList.remove('bg-danger');
+      badge.classList.add('bg-success');
+
+      // ✅ 2. Hide the card from this page
+      card.style.transition = 'all 0.4s ease';
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(-10px)';
+      setTimeout(() => card.remove(), 400);
+
+      // ✅ 3. Close the modal
+      bootstrap.Modal.getInstance(document.getElementById(`modal-${id}`)).hide();
+    } else {
+      alert('Failed to accept appointment');
+    }
+  });
+});
+</script>
+
+</body>
+
+</html>

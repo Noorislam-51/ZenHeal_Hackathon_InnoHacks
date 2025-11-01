@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
+
 const Appointment = require('../models/AppointmentDB');
 
 
@@ -20,13 +21,191 @@ router.get('/doctor/dashboard', function(req, res, next) {
   res.render('./doctor/dashboard',{"user":req.user});
 });
 
-
+// // main 
 router.get('/doctor/patients', async function(req,res,next){
-  const pendingAppointments = await Appointment.find({ status: "Pending" }).lean();
+  const pendingAppointments = await Appointment.find({ status: "Pending" }).populate('patient_id');
   console.log(pendingAppointments)
   data = {"appointments":pendingAppointments}
-  res.render('./doctor/patient_req',{data})
-})
+  res.render('./doctor/patient_accept',{data})
+}) ;
+// // main
+
+// router.post('/doctor/accept/:id', async (req, res) => {
+//   try {
+//     const { scheduleDate, scheduleTime } = req.body;
+//     const id = req.params.id;
+
+//     const result = await Appointment.findByIdAndUpdate(id, {
+//       status: 'Accepted',
+//       scheduledAt: { date: scheduleDate, time: scheduleTime }
+//     });
+
+//     if (!result) {
+//       return res.status(404).json({ error: 'Appointment not found' });
+//     }
+
+//     console.log(`✅ Appointment ${id} accepted at ${scheduleDate} ${scheduleTime}`);
+//     res.status(200).json({ success: true });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: 'Failed to accept appointment' });
+//   }
+// });
+// *************************************************************
+// router.get('/doctor/patients', async function (req, res, next) {
+//   try {
+//     // Fetch appointments from DB
+//     const pendingAppointments = await Appointment.find({ status: "Pending" }).populate('patient_id');
+
+//     // If no appointments found, add fake data for testing
+//     let data;
+//     if (pendingAppointments.length === 0) {
+//       const fakeAppointments = [
+//         {
+//           _id: "fake1",
+//           date: "2025-11-01",
+//           time: "10:30 AM",
+//           reason: "Fever and cold",
+//           status: "Pending",
+//           patient_id: {
+//             _id: "patient1",
+//             name: "Amit Kumar",
+//             age: 32,
+//             gender: "Male",
+//             phone: "9876543210",
+//           },
+//         },
+//         {
+//           _id: "fake2",
+//           date: "2025-11-02",
+//           time: "02:00 PM",
+//           reason: "Headache and dizziness",
+//           status: "Pending",
+//           patient_id: {
+//             _id: "patient2",
+//             name: "Priya Sharma",
+//             age: 28,
+//             gender: "Female",
+//             phone: "9876501234",
+//           },
+//         },
+//       ];
+
+//       console.log("✅ Using fake appointments data");
+//       data = { appointments: fakeAppointments };
+//     } else {
+//       data = { appointments: pendingAppointments };
+//     }
+
+//     console.log(data);
+//     res.render('./doctor/patient_accept', { data });
+//   } catch (error) {
+//     console.error("Error fetching doctor patients:", error);
+//     res.status(500).send("Server error");
+//   }
+// });
+// *************************************************
+
+
+router.get('/doctor/accepted', async function (req, res, next) {
+  try {
+    // ✅ Fetch accepted appointments from DB
+    const acceptedAppointments = await Appointment.find({ status: "Accepted" }).populate('patient_id');
+
+    let data;
+    if (acceptedAppointments.length === 0) {
+      // ✅ Use fake data for testing
+      const fakeAppointments = [
+        {
+          _id: "fake1",
+          date: "2025-11-01",
+          time: "10:30 AM",
+          reason: "Fever and cold",
+          status: "Accepted",
+          patient_id: {
+            _id: "patient1",
+            name: "Amit Kumar",
+            age: 32,
+            gender: "Male",
+            phone: "9876543210",
+          },
+        },
+        {
+          _id: "fake2",
+          date: "2025-11-02",
+          time: "02:00 PM",
+          reason: "Headache and dizziness",
+          status: "Accepted",
+          patient_id: {
+            _id: "patient2",
+            name: "Priya Sharma",
+            age: 28,
+            gender: "Female",
+            phone: "9876501234",
+          },
+        },
+      ];
+
+      console.log("✅ Using fake accepted appointments data");
+      data = { appointments: fakeAppointments };
+    } else {
+      // ✅ Use DB data
+      data = { appointments: acceptedAppointments };
+    }
+
+    console.log("✅ Accepted Appointments:", data);
+    res.render('./doctor/accept_patientRough', { data });
+  } catch (error) {
+    console.error("Error fetching accepted appointments:", error);
+    res.status(500).send("Server error");
+  }
+});
+
+// 📍 POST to accept appointment
+// ✅ Accept appointment route
+
+router.post('/doctor/accept/:id', async (req, res) => {
+  try {
+    const { scheduleDate, scheduleTime } = req.body;
+    const id = req.params.id;
+
+    const appointment = await Appointment.findByIdAndUpdate(
+      id,
+      {
+        status: 'Accepted',
+        scheduledAt: { date: scheduleDate, time: scheduleTime },
+      },
+      { new: true }
+    ).populate('patient_id');
+
+    if (!appointment) {
+      return res.status(404).json({ error: 'Appointment not found' });
+    }
+
+    // ✅ Build WhatsApp message
+    const phone = appointment.patient_id.phone; // e.g. 9876543210 (no +91 here)
+    const text = encodeURIComponent(
+      `Hello ${appointment.patient_id.name}, your appointment has been accepted by the doctor!
+🗓️ Date: ${scheduleDate}
+🕒 Time: ${scheduleTime}
+📍 Mode: ${appointment.mode || 'In-person'}
+
+Thank you for using ZenHeal!`
+    );
+
+    // ✅ Create WhatsApp link
+    const whatsappLink = `https://wa.me/${phone}?text=${text}`;
+
+    console.log(`✅ Appointment ${id} accepted — WhatsApp link: ${whatsappLink}`);
+
+    // Return the link to frontend
+    res.status(200).json({ success: true, whatsappLink });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to accept appointment' });
+  }
+});
+
 
 
 router.get('/doctor/appointments',function(req,res,next){
