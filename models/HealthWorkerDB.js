@@ -33,7 +33,7 @@ const hwSchema = new mongoose.Schema({
 );
 
 // Use email as login username
-// patientSchema.plugin(plm, { usernameField: "email" });
+hwSchema.plugin(plm, { usernameField: "email" });
 
 const HealthWorker = mongoose.model("HealthWorker", hwSchema,"health_workers");
 module.exports = HealthWorker;

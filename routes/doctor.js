@@ -10,9 +10,9 @@ router.get('/login/doctor', function(req, res, next) {
 
 
 router.get('/doctor/dashboard', function(req, res, next) {
-  // if (!req.isAuthenticated()) {
-  //   return res.redirect('/login');
-  // }
+  if (!req.isAuthenticated()) {
+    return res.redirect('/login/doctor');
+  }
   console.log("Patient Data")
   console.log(req.user);           // Entire patient object
   console.log(req.user._id);       // ✅ Patient's MongoDB ID
@@ -106,6 +106,19 @@ router.get('/doctor/prescriptions',function(req,res,next){
 });
 })
 
-
+router.get('/doctor/profile',function(req,res,next){
+    res.render('./doctor/profile', {
+    notificationCount: 3,
+    profile: {
+        fullName: 'Ali Atiyab Husain',
+        initials: 'AA', // First letters of first and last name
+        specialization: 'General Practitioner',
+        email: 'dr.ali@zenheal.com',
+        phone: '+91 98765 43210',
+        clinicLocation: 'Rampur Rural Health Center',
+        medicalLicense: 'MCI-12345678'
+    }
+});
+})
 
 module.exports = router;

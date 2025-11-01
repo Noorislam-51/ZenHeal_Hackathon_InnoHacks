@@ -13,37 +13,34 @@ const storage = multer.diskStorage({
     cb(null, uploadDir);
   },
   filename: function (req, file, cb) {
-    const uniqueName = `patient_${Date.now()}${path.extname(file.originalname)}`;
+    const uniqueName = `health-worker_${Date.now()}${path.extname(file.originalname)}`;
     cb(null, uniqueName);
   }
 });
 const upload = multer({ storage });
 
 
-
-
-
-router.get('/login/patient', function(req, res, next) {
-  res.render('./auth/patient_auth.ejs');
+router.get('/login/health-worker', function(req, res, next) {
+  res.render('./auth/health_worker_auth.ejs');
 });
 
-router.get('/patient/dashboard', function(req, res, next) {
-  console.log("Patient Data")
+router.get('/health-worker/dashboard', function(req, res, next) {
+  console.log("Health Worker Data")
   console.log(req.user);           // Entire patient object
   console.log(req.user._id);       // ✅ Patient's MongoDB ID
   console.log(req.user.fullName); 
-  res.render('./patient/dashboard',{"user":req.user});
+  res.render('./health-worker/dashboard',{"user":req.user});
 });
 
-router.get('/patient/consultation', function(req, res, next) {
-  res.render('./patient/consultation');
+router.get('/health-worker/consultation', function(req, res, next) {
+  res.render('./health-worker/consultation');
 });
 
-router.get('/patient/add_patient', function(req, res, next) {
-  res.render('./patient/add_patient');
+router.get('/health-worker/add_patient', function(req, res, next) {
+  res.render('./health-worker/add_patient');
 });
 
-router.post('/patient/add_patient', upload.single('photoFile'), async (req, res) => {
+router.post('/health-worker/add_patient', upload.single('photoFile'), async (req, res) => {
   try {
     const {
       fullName,
@@ -65,7 +62,7 @@ router.post('/patient/add_patient', upload.single('photoFile'), async (req, res)
     // 1️⃣ Case 1: Base64 from camera
     if (photoData && photoData.startsWith('data:image')) {
       const base64Data = photoData.replace(/^data:image\/\w+;base64,/, '');
-      const fileName = `patient_${Date.now()}.png`;
+      const fileName = `health-worker_${Date.now()}.png`;
       const uploadPath = path.join(__dirname, '../public/images/uploads', fileName);
 
       fs.writeFileSync(uploadPath, Buffer.from(base64Data, 'base64'));
@@ -106,7 +103,7 @@ router.post('/patient/add_patient', upload.single('photoFile'), async (req, res)
   }
 });
 
-router.get('/patient/prescription', async (req, res) => {
+router.get('/health-worker/prescription', async (req, res) => {
   try {
     // Fetch real prescriptions (appointments that include a prescription)
     let prescriptions = await Appointment.find({ prescription: { $exists: true, $ne: null } })
@@ -167,20 +164,20 @@ router.get('/patient/prescription', async (req, res) => {
     }));
 
     // ✅ Render to EJS
-    res.render('patient/prescription', { prescriptions });
+    res.render('health-worker/prescription', { prescriptions });
   } catch (err) {
     console.error('❌ Error fetching prescriptions:', err);
     res.status(500).send('Server Error');
   }
 });
 
-router.get('/patient/appointment', async (req, res) => {
+router.get('/health-worker/appointment', async (req, res) => {
   try {
     // Fetch patients who have assigned doctors (or modify condition as needed)
     const appointment = await Appointment.find().populate('assignedDoctor').lean();
 
     // Pass appointments data to EJS
-    res.render('./patient/appointment_page', { appointment });
+    res.render('./health-worker/appointment_page', { appointment });
   } catch (err) {
     console.error('Error fetching appointment:', err);
     res.status(500).send('Server Error');
@@ -188,7 +185,7 @@ router.get('/patient/appointment', async (req, res) => {
 });
 
 
-router.get('/patient/appointment/:id', async (req, res) => {
+router.get('/health-worker/appointment/:id', async (req, res) => {
   try {
     const appointment = await Appointment.findById(req.params.id).populate('assignedDoctor').lean();
 
