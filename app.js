@@ -107,6 +107,7 @@ const doctorRouter = require('./routes/doctor');
 const patientRouter = require('./routes/patient');
 const pharmacyRouter = require('./routes/pharmacy');
 const healthWorkerRouter = require('./routes/health_worker');
+const videoRouter = require('./routes/video')
 
 app.use('/', indexRouter);
 app.use('/', authRouter);
@@ -114,8 +115,7 @@ app.use('/', doctorRouter);
 app.use('/', patientRouter);
 app.use('/', pharmacyRouter);
 app.use('/',healthWorkerRouter);
-
-
+app.use('/',videoRouter);
 
 // ------------------ ERROR HANDLING ------------------
 app.use((req, res, next) => next(createError(404)));
