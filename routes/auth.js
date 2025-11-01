@@ -3,7 +3,7 @@ const passport = require('passport');
 const Doctor = require('../models/DoctorDB');
 const Patient = require('../models/PatientDB');
 const Pharmacy= require('../models/PharmacyDB'); 
-
+const HealthWorker=require('../models/HealthWorkerDB')
 const router = express.Router();
 
 // -------------------- PATIENT AUTH --------------------
@@ -152,6 +152,57 @@ router.post(
     res.redirect('/pharmacy/dashboard'); // redirect to pharmacy dashboard or landing page
   }
 );
+
+
+// -------------------- Health Worker AUTH --------------------
+
+router.get('/login/health-worker', (req, res) => {
+  res.render('auth/health_worker_auth');  
+});
+
+// ✅ health-worker Registration
+router.post('/register/health-worker', async (req, res) => {
+  try {
+    const { fullName, email, phone, password, confirmPassword } = req.body;
+
+    if (password !== confirmPassword) {
+      req.flash('error', 'Passwords do not match');
+      return res.redirect('/login/health-worker');
+    }
+
+    const existingHealthWorker = await HealthWorker.findOne({ $or: [{ email }] });
+    if (existingHealthWorker) {
+      req.flash('error', 'Email already exists.');
+      return res.redirect('/login/health-worker');
+    }
+
+    const newHealthWorker = new HealthWorker({ fullName, email, phone });
+    await HealthWorker.register(newHealthWorker, password);
+
+    req.flash('success', 'Health Worker account created successfully. Please log in.');
+    res.redirect('/login/health-worker'); // ✅ redirect to correct page
+  } catch (err) {
+    console.error('❌ Patient Registration Error:', err);
+    req.flash('error', 'Error creating patient account. Try again.');
+    res.redirect('/login/health-worker');
+  }
+});
+
+// ✅ health-worker Login
+router.post(
+  '/login/health-worker',
+  passport.authenticate('HealthWorker-local', {
+    successRedirect: '/health-worker/dashboard',
+    failureRedirect: '/login/health-worker',
+    failureFlash: 'Invalid email or Password',
+  }),
+  (req, res) => {
+    req.flash('success', 'Health Worker login successful!');
+    res.redirect('/health-worker/dashboard');
+  }
+);
+
+
 // -------------------- LOGOUT --------------------
 router.get('/logout', (req, res, next) => {
   req.logout(err => {
