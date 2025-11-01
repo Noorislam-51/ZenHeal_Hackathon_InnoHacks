@@ -478,54 +478,66 @@
 
                         <div class="section-header">
                             <h3 class="section-title">Pending Requests</h3>
-                            <span class="pending-count">4 Pending</span>
+                            <span class="pending-count">
+                                <%= data.appointments.length %> Pending
+                            </span>
                         </div>
 
                         <div class="requests-container">
                             <!-- Request Card 1 -->
-                            <div class="request-card">
-                                <div class="card-header">
-                                    <div class="patient-info">
-                                        <div class="patient-icon">
-                                            <svg viewBox="0 0 24 24">
-                                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                                                <circle cx="12" cy="7" r="4" />
-                                            </svg>
-                                        </div>
-                                        <div class="patient-details">
-                                            <h3>Ramesh Kumar, 45</h3>
-                                            <p class="village-name">Village: Khandwa</p>
-                                        </div>
-                                    </div>
-                                    <span class="priority-badge priority-high">high priority</span>
-                                </div>
+                            <% data.appointments.forEach((user)=> { %>
+                                <% console.log(user) %>
 
-                                <div class="problem-section">
-                                    <div class="problem-header">
-                                        <div class="problem-icon">
-                                            <svg viewBox="0 0 24 24">
-                                                <circle cx="12" cy="12" r="10" />
-                                                <line x1="12" y1="16" x2="12" y2="12" />
-                                                <line x1="12" y1="8" x2="12.01" y2="8" />
-                                            </svg>
+                                    <div class="request-card">
+                                        <div class="card-header">
+                                            <div class="patient-info">
+                                                <div class="patient-icon">
+                                                    <svg viewBox="0 0 24 24">
+                                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                                        <circle cx="12" cy="7" r="4" />
+                                                    </svg>
+                                                </div>
+                                                <div class="patient-details">
+                                                    <h3>
+                                                        <%= user.fullName %>, <%= user.age %>
+                                                    </h3>
+                                                    <p class="village-name">Village: <%= user.village%>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <span class="priority-badge priority-high">high priority</span>
                                         </div>
-                                        <span class="problem-title">Problem Description</span>
-                                    </div>
-                                    <p class="problem-description">Persistent fever and body ache for 3 days</p>
-                                </div>
 
-                                <div class="submission-time">
-                                    <div class="time-icon">
-                                        <svg viewBox="0 0 24 24">
-                                            <circle cx="12" cy="12" r="10" />
-                                            <polyline points="12 6 12 12 16 14" />
-                                        </svg>
-                                    </div>
-                                    <span>Submitted: 2024-03-15 10:30 AM</span>
-                                </div>
+                                        <div class="problem-section">
+                                            <div class="problem-header">
+                                                <div class="problem-icon">
+                                                    <svg viewBox="0 0 24 24">
+                                                        <circle cx="12" cy="12" r="10" />
+                                                        <line x1="12" y1="16" x2="12" y2="12" />
+                                                        <line x1="12" y1="8" x2="12.01" y2="8" />
+                                                    </svg>
+                                                </div>
+                                                <span class="problem-title">Problem Description</span>
+                                            </div>
+                                            <p class="problem-description">
+                                                <%=user.problem%>
+                                            </p>
+                                        </div>
 
-                                <button class="action-button">Accept & Schedule Appointment</button>
-                            </div>
+                                        <div class="submission-time">
+                                            <div class="time-icon">
+                                                <svg viewBox="0 0 24 24">
+                                                    <circle cx="12" cy="12" r="10" />
+                                                    <polyline points="12 6 12 12 16 14" />
+                                                </svg>
+                                            </div>
+                                            <span>Submitted: <%= new Date(user.createdAt).toLocaleString('en-IN', {
+                                                    timeZone: 'Asia/Kolkata' }) %></span>
+                                        </div>
+
+                                        <button class="action-button">Accept & Schedule Appointment</button>
+                                    </div>
+                                    <% }) %>
 
                         </div>
                     </div>
