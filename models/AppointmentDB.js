@@ -14,6 +14,9 @@ const appointmentSchema = new mongoose.Schema({
   symptoms: {
     type: String
   },
+  problem:{
+    type:String
+  },
   category: {
     type: String,
     enum: ['General', 'Fever', 'Injury', 'Eye', 'Skin', 'Maternal', 'Other'],

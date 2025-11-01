@@ -23,8 +23,9 @@ const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
 const addPatientRouter = require('./routes/add_patient');
 const appointmentRouter = require('./routes/appointment');
-// const doctorRouter = require('./routes/doctor');
-// const patientRouter = require('./routes/patient');
+const doctorRouter = require('./routes/doctor');
+const patientRouter = require('./routes/patient');
+const pharmacyRouter = require('./routes/pharmacy');
 
 const app = express();
 
@@ -109,8 +110,9 @@ app.use('/', indexRouter);
 app.use('/', authRouter);
 app.use('/patient', addPatientRouter);
 app.use('/', appointmentRouter);
-// app.use('/doctor', doctorRouter);
-// app.use('/z', patientRouter);
+app.use('/', doctorRouter);
+app.use('/', patientRouter);
+app.use('/',pharmacyRouter)
 
 // ------------------ ERROR HANDLING ------------------
 
