@@ -17,12 +17,6 @@ const patientSchema = new mongoose.Schema({
       enum: ['male', 'female', 'other'],
       
     },
-    village: {
-      type: String
-    },
-    contact: {
-      type: String
-    },
     photo: {
     type: String // stores filename or path
   },

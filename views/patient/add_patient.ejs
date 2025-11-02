@@ -118,9 +118,9 @@
                   <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">1</span>
                 </button>
                 <button class="btn btn-link"><i class="bi bi-translate fs-4"></i>
-                 
+
                 </button>
-                 <!-- <div class="translate-container " >
+                <!-- <div class="translate-container " >
                     <%- translateSnippet %>
                   </div> -->
               </div>
@@ -135,62 +135,26 @@
             <h4 class="mb-2">Patient Registration</h4>
             <p class="text-muted mb-4">Fill in the patient details to register them in the system</p>
 
-            <form action="/patient/add_patient" method="POST" enctype="multipart/form-data">
+            <form action="/patient/create-appointment" method="POST" enctype="multipart/form-data">
 
-              <!-- Full Name -->
+
+
+              <!-- Problem -->
               <div class="mb-4">
-                <label class="form-label">Full Name <span class="required">*</span></label>
-                <input type="text" name="fullName" class="form-control" placeholder="Enter patient's full name"
-                  required>
+                <label class="form-label">Problem<span class="required">*</span></label>
+                <textarea name="problem" class="form-control" rows="5"
+                  placeholder="Describe your problem..."></textarea>
               </div>
-
-              <!-- Age and Gender -->
-              <div class="row mb-4">
-                <div class="col-md-6">
-                  <label class="form-label">Age <span class="required">*</span></label>
-                  <input type="number" name="age" class="form-control" placeholder="Enter age" required>
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label">Gender <span class="required">*</span></label>
-                  <div class="mt-2">
-                    <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" name="gender" id="male" value="male" checked>
-                      <label class="form-check-label" for="male">Male</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" name="gender" id="female" value="female">
-                      <label class="form-check-label" for="female">Female</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" name="gender" id="other" value="other">
-                      <label class="form-check-label" for="other">Other</label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Village and Contact -->
-              <div class="row mb-4">
-                <div class="col-md-6">
-                  <label class="form-label">Village <span class="required">*</span></label>
-                  <input type="text" name="village" class="form-control" placeholder="Enter village name" required>
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label">Contact Number</label>
-                  <input type="tel" name="contact" class="form-control" placeholder="Enter phone number">
-                </div>
-              </div>
-
               <!-- Symptoms -->
               <div class="mb-4">
-                <label class="form-label">Symptoms</label>
+                <label class="form-label">Symptoms<span class="required">*</span></label>
                 <textarea name="symptoms" class="form-control" rows="5"
-                  placeholder="Describe patient's symptoms..."></textarea>
+                  placeholder="Describe your symptoms..."></textarea>
               </div>
               <!-- Problem Category -->
               <div class="mb-4">
                 <label class="form-label">Problem Category <span class="required">*</span></label>
-                <select name="category" id="categorySelect" class="form-select" required>
+                <select name="problemCategory" id="problemCategorySelect" class="form-select" required>
                   <option value="">Select a category</option>
                   <option value="General">General</option>
                   <option value="Fever">Fever</option>
@@ -202,62 +166,22 @@
                 </select>
               </div>
 
-              <!-- Hidden textbox (shown only when "Other" is selected) -->
-              <div class="mb-4" id="otherCategoryDiv" style="display: none;">
-                <label class="form-label">Specify Other Problem</label>
-                <input type="text" id="otherCategoryInput" name="otherCategory" class="form-control"
-                  placeholder="Enter specific problem type">
-              </div>
-
-
-              <!-- Patient Photo Capture -->
-              <!-- Patient Photo Capture -->
+              <!-- Problem Category -->
               <div class="mb-4">
-                <label class="form-label d-block">Patient Photo</label>
-
-                <div class="text-center">
-                  <video id="cameraStream" autoplay playsinline
-                    style="display:none; width: 100%; max-width: 300px; border-radius: 10px;"></video>
-                  <canvas id="snapshotCanvas" style="display:none;"></canvas>
-                  <img id="capturedImage" src="" alt="Captured Photo"
-                    style="display:none; width:150px; height:150px; border-radius:10px; object-fit:cover;">
-                </div>
-
-                <div class="mt-3 d-flex justify-content-center flex-wrap gap-3">
-                  <button type="button" id="openCameraBtn" class="btn btn-primary">
-                    <i class="bi bi-camera-video"></i> Open Camera
-                  </button>
-                  <button type="button" id="takePhotoBtn" class="btn btn-success" style="display:none;">
-                    <i class="bi bi-camera"></i> Capture
-                  </button>
-                  <button type="button" id="removePhotoBtn" class="btn btn-outline-danger" style="display:none;">
-                    <i class="bi bi-trash3"></i> Remove
-                  </button>
-
-                  <!-- 🔹 New: Upload from system -->
-                  <label for="uploadPhotoInput" class="btn btn-secondary mb-0">
-                    <i class="bi bi-upload"></i> Select from System
-                  </label>
-                  <input type="file" id="uploadPhotoInput" name="photoFile" accept="image/*" style="display:none;">
-                </div>
-
-                <!-- Hidden input for camera capture (base64 data) -->
-                <input type="hidden" id="photoData" name="photoData">
+                <label class="form-label">Mode <span class="required">*</span></label>
+                <select name="mode" id="modeSelect" class="form-select" required>
+                  <option value="">Select a mode : </option>
+                  <option value="Video-Call">Video Call</option>
+                  <option value="Phone-Call">Phone Call</option>
+                  <option value="Message">Message</option>
+                  <option value="In-Person">In-Person</option>
+                </select>
               </div>
-
-
-
-
               <!-- Action Buttons -->
               <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                   <button type="submit" class="btn btn-save w-100">
                     <i class="bi bi-save me-2"></i> Save Patient
-                  </button>
-                </div>
-                <div class="col-md-6">
-                  <button type="button" class="btn btn-offline w-100">
-                    <i class="bi bi-wifi-off me-2"></i> Save Offline
                   </button>
                 </div>
               </div>

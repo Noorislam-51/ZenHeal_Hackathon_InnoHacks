@@ -4,7 +4,7 @@ const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 const Appointment = require('../models/AppointmentDB');
-
+const Patient = require('../models/PatientDB')
 // 🔹 Multer setup for file uploads
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -39,63 +39,34 @@ router.get('/patient/consultation', function(req, res, next) {
   res.render('./patient/consultation');
 });
 
-router.get('/patient/add_patient', function(req, res, next) {
+router.get('/patient/create-appointment', function(req, res, next) {
   res.render('./patient/add_patient');
 });
 
-router.post('/patient/add_patient', upload.single('photoFile'), async (req, res) => {
+router.post('/patient/create-appointment', upload.single('photoFile'), async (req, res) => {
   console.log("User Data: ",req.user)
   patient_id = req.user._id.toString();
-  mode = 'Video-call';
   try {
-      const {
-          symptoms,
-          category,
-          otherCategory,
-          photoData
-        } = req.body;
-        
-        // 🧠 If category is "Other"
-        const finalCategory = category === 'Other' && otherCategory ? otherCategory : category;
-        
-        let savedPhotoPath = null;
-    
-
-    // 1️⃣ Case 1: Base64 from camera
-    if (photoData && photoData.startsWith('data:image')) {
-      const base64Data = photoData.replace(/^data:image\/\w+;base64,/, '');
-      const fileName = `patient_${Date.now()}.png`;
-      const uploadPath = path.join(__dirname, '../public/images/uploads', fileName);
-
-      fs.writeFileSync(uploadPath, Buffer.from(base64Data, 'base64'));
-      savedPhotoPath = `/images/uploads/${fileName}`;
-
-    // 2️⃣ Case 2: Uploaded file from system
-    } else if (req.file) {
-      savedPhotoPath = `/images/uploads/${req.file.filename}`;
-    }
-
-    // ===================================
-    // 💾 Save new patient record
-    // ===================================
-    const newPatient = new Appointment({
+    console.log(req.body);
+    const newAppointment = new Appointment({
       patient_id,
-      mode:'Video-Call',
-      symptoms,
-      category:finalCategory      
-    });
+      mode:req.body.mode,
+      problem:req.body.problem,
+      symptoms:req.body.symptoms,
+      category:req.body.problemCategory      
+    },{new:true});
 
-    await newPatient.save();
+    await newAppointment.save();
 
-    console.log('✅ New patient added:', newPatient.patient_id);
+    console.log('✅ New Appointment added:', newAppointment.patient_id);
     res.status(201).json({
-      message: '✅ Patient added successfully',
-      patient: newPatient
+      message: '✅ Appointment added successfully',
+      patient: newAppointment
     });
   } catch (error) {
-    console.error('❌ Error saving patient:', error);
+    console.error('❌ Error saving Appointment:', error);
     res.status(500).json({
-      message: '❌ Failed to add patient',
+      message: '❌ Failed to add Appointment',
       error: error.message
     }); 
   }
@@ -199,8 +170,31 @@ router.get('/patient/appointment/:id', async (req, res) => {
 });
 
 
-router.get('/patient/profile',function(req,res,next){
-  res.render('patient/profile')
+router.get('/patient/profile',async(req,res,next)=>{
+  patient_id = req.user._id.toString();
+  const patient = await Patient.findById(patient_id)
+  console.log("Patient Data : ",patient)
+  res.render('patient/profile',{profile: {
+        fullName: patient.fullName,
+        initials: 'AA',
+        email: patient.email,
+        phone: patient.phone,
+        location: patient.location,
+        age: 19
+    }})
+})
+
+
+router.post('/patient/profile',async(req,res,next)=>{
+  console.log("In POST : ")
+  console.log(req.body)
+  patient_id = req.user._id.toString();
+  const updatedPatient = await Patient.findByIdAndUpdate(patient_id,
+    req.body
+  )
+  console.log("Updated Patient Data : ")
+  console.log(updatedPatient)
+  res.redirect('/patient/profile')
 })
 
 module.exports = router;

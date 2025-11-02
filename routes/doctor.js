@@ -24,7 +24,7 @@ router.get('/doctor/dashboard', function(req, res, next) {
 // // main 
 router.get('/doctor/patients', async function(req,res,next){
   const pendingAppointments = await Appointment.find({ status: "Pending" }).populate('patient_id');
-  console.log(pendingAppointments)
+  console.log("Pending Appointments : ",pendingAppointments)
   data = {"appointments":pendingAppointments}
   res.render('./doctor/patient_accept',{data})
 }) ;
@@ -166,14 +166,17 @@ router.get('/doctor/accepted', async function (req, res, next) {
 
 router.post('/doctor/accept/:id', async (req, res) => {
   try {
+    console.log(req.body)
     const { scheduleDate, scheduleTime } = req.body;
-    const id = req.params.id;
-
+    console.log(scheduleDate,scheduleTime)
+    const appointmentId = req.params.id;
+    const doctor_id = req.user.id;
     const appointment = await Appointment.findByIdAndUpdate(
-      id,
+      appointmentId,
       {
         status: 'Accepted',
         scheduledAt: { date: scheduleDate, time: scheduleTime },
+        assignedDoctorId: doctor_id
       },
       { new: true }
     ).populate('patient_id');
@@ -182,10 +185,12 @@ router.post('/doctor/accept/:id', async (req, res) => {
       return res.status(404).json({ error: 'Appointment not found' });
     }
 
+
+    console.log("Updated Appointment : ",appointment)
     // ✅ Build WhatsApp message
     const phone = appointment.patient_id.phone; // e.g. 9876543210 (no +91 here)
     const text = encodeURIComponent(
-      `Hello ${appointment.patient_id.name}, your appointment has been accepted by the doctor!
+      `Hello ${appointment.patient_id.fullName}, your appointment has been accepted by the doctor!
 🗓️ Date: ${scheduleDate}
 🕒 Time: ${scheduleTime}
 📍 Mode: ${appointment.mode || 'In-person'}
@@ -196,10 +201,10 @@ Thank you for using ZenHeal!`
     // ✅ Create WhatsApp link
     const whatsappLink = `https://wa.me/${phone}?text=${text}`;
 
-    console.log(`✅ Appointment ${id} accepted — WhatsApp link: ${whatsappLink}`);
+    console.log(`✅ Appointment ${appointmentId} accepted — WhatsApp link: ${whatsappLink}`);
 
     // Return the link to frontend
-    res.status(200).json({ success: true, whatsappLink });
+    res.redirect('/doctor/patients')
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Failed to accept appointment' });
@@ -208,45 +213,33 @@ Thank you for using ZenHeal!`
 
 
 
-router.get('/doctor/appointments',function(req,res,next){
-  data = {
-    doctor: {
-        name: 'Dr. Ali Atiyab Husain',
-        role: 'General Practitioner'
-      },
-      notificationCount: 3,
-      upcomingAppointments: [
-        {
-          patientName: 'Ramesh Kumar',
-          type: 'video',
-          date: '30 Oct 2025',
-          time: '10:00 AM',
-          reason: 'Follow-up consultation'
-        },
-        {
-          patientName: 'Priya Sharma',
-          type: 'inperson',
-          date: '30 Oct 2025',
-          time: '2:30 PM',
-          reason: 'General checkup'
-        },
-        {
-          patientName: 'Anil Patel',
-          type: 'video',
-          date: '30 Oct 2025',
-          time: '4:00 PM',
-            reason: 'Prescription renewal'
-        }
-    ],
-    pastAppointments: [
-      {
-        patientName: 'Meera Singh',
-        date: '29 Oct 2025',
-        time: '11:00 AM'
-      }
-    ]
-  }
-  res.render('./doctor/appointments',data)
+router.get('/doctor/appointments',async(req,res,next)=>{
+  doctor_id = req.user.id;
+  const acceptedAppointments = await Appointment.find({ status: "Accepted",
+    assignedDoctorId:doctor_id }).populate('patient_id');
+  let upcomingAppointments = [];
+  let pastAppointments = [];
+  acceptedAppointments.forEach(ele=>{
+    const scheduledDateTime = new Date(`${ele.scheduledAt.date}T${ele.scheduledAt.time}:00`);
+
+    // Get current date & time
+    const now = new Date();
+
+    // Compare them
+    if (now > scheduledDateTime) {
+      pastAppointments.push(ele);
+    } else if (now < scheduledDateTime) {
+      console.log('🕒 The scheduled time is in the future');
+      upcomingAppointments.push(ele)
+    } else {
+      console.log('🎯 It’s happening right now!');
+    }
+  })
+  console.log("Accepted Appointments : ",acceptedAppointments)
+  
+
+  res.render('./doctor/appointments',{upcomingAppointments:upcomingAppointments,
+    pastAppointments:pastAppointments})
 })
 
 

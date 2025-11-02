@@ -21,13 +21,16 @@
 
   const appointmentSchema = new mongoose.Schema({
     patient_id: {
-      type: mongoose.Schema.Types.ObjectId
-    },
-    doctor_id: {
       type: mongoose.Schema.Types.ObjectId,
+      ref:'Patient'
     },
+    scheduledAt: {
+    date: { type: String },  // or Date if you prefer
+    time: { type: String }
+  },
     health_worker_id: {
       type: mongoose.Schema.Types.ObjectId,
+      ref:'HealthWorker'
     },
     symptoms: {
       type: String
@@ -41,9 +44,9 @@
       required: true
     },
     audioNote: {
-      type: String // stores filename or path
+      type: String
     },
-    assignedDoctor: {
+    assignedDoctorId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Doctor',
       default: null
@@ -55,7 +58,7 @@
     },
     mode: {
       type: String,
-      enum: ["Phone-Call", "Video-Call", "Message"],
+      enum: ["Phone-Call", "Video-Call", "Message","In-Person"],
       default: 'Video-Call'
     }, 
     prescription: prescriptionSchema, // 🩺 new field

@@ -507,9 +507,9 @@
                                     <div class="appointment-card">
                                         <div class="card-header">
                                             <h4 class="patient-name">
-                                                <%= appointment.patientName %>
+                                                <%= appointment.patient_id.fullName %>
                                             </h4>
-                                            <% if (appointment.type==='video' ) { %>
+                                            <% if (appointment.mode==='Video-Call' ) { %>
                                                 <div class="appointment-badge badge-video">
                                                     <div class="badge-icon">
                                                         <svg viewBox="0 0 24 24">
@@ -528,7 +528,7 @@
                                                                 <circle cx="12" cy="10" r="3" />
                                                             </svg>
                                                         </div>
-                                                        In-Person
+                                                        <%= appointment.mode %>
                                                     </div>
                                                     <% } %>
                                         </div>
@@ -544,7 +544,7 @@
                                                     </svg>
                                                 </div>
                                                 <span>
-                                                    <%= appointment.date %>
+                                                    <%= appointment.scheduledAt.date %>
                                                 </span>
                                             </div>
                                             <div class="detail-row">
@@ -555,16 +555,16 @@
                                                     </svg>
                                                 </div>
                                                 <span>
-                                                    <%= appointment.time %>
+                                                    <%= appointment.scheduledAt.time %>
                                                 </span>
                                             </div>
                                         </div>
 
                                         <div class="reason-box">
-                                            Reason: <%= appointment.reason %>
+                                            Problem: <%= appointment.problem %>
                                         </div>
 
-                                        <% if (appointment.type==='video' ) { %>
+                                        <% if (appointment.mode==='video' ) { %>
                                             <button class="action-button">Join Call</button>
                                             <% } else { %>
                                                 <button class="action-button">Mark as Complete</button>
@@ -595,10 +595,11 @@
                                         </div>
                                         <div class="past-patient-info">
                                             <h3>
-                                                <%= appointment.patientName %>
+                                                <%= appointment.patient_id.fullName %>
                                             </h3>
                                             <p class="past-datetime">
-                                                <%= appointment.date %> at <%= appointment.time %>
+                                                <%= appointment.scheduledAt.date %> at <%= appointment.scheduledAt.time
+                                                        %>
                                             </p>
                                         </div>
                                     </div>
