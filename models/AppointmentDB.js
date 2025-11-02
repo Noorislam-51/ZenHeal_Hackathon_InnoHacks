@@ -21,8 +21,7 @@
 
   const appointmentSchema = new mongoose.Schema({
     patient_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true
+      type: mongoose.Schema.Types.ObjectId
     },
     doctor_id: {
       type: mongoose.Schema.Types.ObjectId,

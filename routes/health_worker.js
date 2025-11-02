@@ -76,7 +76,7 @@ router.post('/health-worker/add_patient', upload.single('photoFile'), async (req
     // ===================================
     // 💾 Save new patient record
     // ===================================
-    const newPatient = new Appointment({
+    const newPatient = new Patient({
       fullName,
       age: Number(age),
       gender,

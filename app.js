@@ -16,11 +16,7 @@ connectDB();
 // ------------------ INITIALIZE EXPRESS APP ------------------
 const app = express();
 
-// ------------------ SERVER + SOCKET.IO SETUP ------------------
-const http = require('http');
-const { Server } = require('socket.io');
-const server = http.createServer(app);
-const io = new Server(server); // Attach socket.io
+
 
 // ------------------ MIDDLEWARE ------------------
 app.use(logger('dev'));
@@ -118,6 +114,12 @@ app.use('/',healthWorkerRouter);
 app.use('/',videoRouter);
 
 // ------------------ ERROR HANDLING ------------------
+app.use((req, res, next) => {
+  console.log('SESSION:', req.session);
+  console.log('USER:', req.user);
+  next();
+});
+
 app.use((req, res, next) => next(createError(404)));
 app.use((err, req, res, next) => {
   res.locals.message = err.message;
@@ -128,6 +130,6 @@ app.use((err, req, res, next) => {
 
 // ------------------ START SERVER ------------------
 const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
 
 module.exports = app;

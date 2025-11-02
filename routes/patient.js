@@ -44,23 +44,22 @@ router.get('/patient/add_patient', function(req, res, next) {
 });
 
 router.post('/patient/add_patient', upload.single('photoFile'), async (req, res) => {
+  console.log("User Data: ",req.user)
+  patient_id = req.user._id.toString();
+  mode = 'Video-call';
   try {
-    const {
-      fullName,
-      age,
-      gender,
-      village,
-      contact,
-      symptoms,
-      category,
-      otherCategory,
-      photoData
-    } = req.body;
-
-    // 🧠 If category is "Other"
-    const finalCategory = category === 'Other' && otherCategory ? otherCategory : category;
-
-    let savedPhotoPath = null;
+      const {
+          symptoms,
+          category,
+          otherCategory,
+          photoData
+        } = req.body;
+        
+        // 🧠 If category is "Other"
+        const finalCategory = category === 'Other' && otherCategory ? otherCategory : category;
+        
+        let savedPhotoPath = null;
+    
 
     // 1️⃣ Case 1: Base64 from camera
     if (photoData && photoData.startsWith('data:image')) {
@@ -80,19 +79,15 @@ router.post('/patient/add_patient', upload.single('photoFile'), async (req, res)
     // 💾 Save new patient record
     // ===================================
     const newPatient = new Appointment({
-      fullName,
-      age: Number(age),
-      gender,
-      village,
-      contact,
+      patient_id,
+      mode:'Video-Call',
       symptoms,
-      category: finalCategory,
-      photo: savedPhotoPath
+      category:finalCategory      
     });
 
     await newPatient.save();
 
-    console.log('✅ New patient added:', newPatient.fullName);
+    console.log('✅ New patient added:', newPatient.patient_id);
     res.status(201).json({
       message: '✅ Patient added successfully',
       patient: newPatient
@@ -202,5 +197,10 @@ router.get('/patient/appointment/:id', async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
+
+router.get('/patient/profile',function(req,res,next){
+  res.render('patient/profile')
+})
 
 module.exports = router;

@@ -36,21 +36,21 @@ const connectDB = async () => {
     console.log("✅ Connected to MongoDB Atlas");
 
     // Create a second connection for Compass (local)
-    const compassConnection = mongoose.createConnection(compassURI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    // const compassConnection = mongoose.createConnection(compassURI, {
+    //   useNewUrlParser: true,
+    //   useUnifiedTopology: true,
+    // });
 
-    compassConnection.on("connected", () => {
-      console.log("✅ Connected to MongoDB Compass (Local)");
-    });
+    // compassConnection.on("connected", () => {
+    //   console.log("✅ Connected to MongoDB Compass (Local)");
+    // });
 
-    compassConnection.on("error", (err) => {
-      console.error("❌ Compass connection error:", err);
-    });
+    // compassConnection.on("error", (err) => {
+    //   console.error("❌ Compass connection error:", err);
+    // });
 
     // Export both connections if needed elsewhere
-    return { atlasConnection, compassConnection };
+    return { atlasConnection };
   } catch (err) {
     console.error("❌ MongoDB connection error:", err);
     process.exit(1);
